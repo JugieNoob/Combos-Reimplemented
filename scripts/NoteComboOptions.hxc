@@ -1,0 +1,79 @@
+import funkin.modding.module.Module;
+import funkin.ui.options.PreferencesMenu;
+import funkin.ui.options.OptionsState;
+import flixel.FlxG;
+import flixel.util.FlxSave;
+import Std;
+
+
+class NoteComboOptions extends Module {
+
+    var pagename = OptionsState.PageName;
+    var save:FlxSave = new FlxSave();
+
+    function new (){
+        super("Note Combo Options", 20);
+        save = new FlxSave();
+        save.bind("NoteComboMod", "JugieNoob");
+
+        if (save.data.combopopup == null)
+        {
+            save.data.combopopup = true;
+        }
+        if (save.data.comboswoosh == null)
+        {
+            save.data.comboswoosh = true;
+        }
+        if (save.data.combosound == null)
+        {
+            save.data.combosound = true;
+        }
+        if (save.data.debugtext == null)
+        {
+            save.data.debugtext = true;
+        }
+    }
+
+    function onStateChangeEnd(event)
+    {
+        super.onStateChangeEnd(event);
+
+            if (Std.isOfType(event.targetState, OptionsState))
+                {
+          
+                        var preferences = event.targetState.optionsCodex.pages.get("preferences");
+        
+        
+                        preferences.createPrefItemCheckbox('Combo Popup', 'Toggles the combo popup when you hit more than 10 or more notes in a row.', function(value:Bool):Void {
+                        save.data.combopopup = value; }, save.data.combopopup);
+            
+                        preferences.createPrefItemCheckbox('Note Combo Swoosh', 'Toggles the combo swoosh that appears after each section in a song.', function(value:Bool):Void {
+                        save.data.comboswoosh = value; }, save.data.comboswoosh);
+            
+                        preferences.createPrefItemCheckbox('Note Combo Sound', "Toggles the note combo sound when the combo swoosh appears.", function(value:Bool):Void {
+                        save.data.combosound = value; }, save.data.combosound);
+            
+                        preferences.createPrefItemCheckbox('Note Combo Debug Text', 'Toggles the note combo debug text used in the development of the mod.', function(value:Bool):Void {
+                        save.data.debugtext = value; }, save.data.debugtext);
+            
+            
+            
+                        save.flush();
+                    
+
+                }
+        
+      
+    }
+
+    // if (Std.isOfType(event.targetState, OptionsState)) {
+    //     var preferencesPage = event.targetState.optionsCodex.pages.get("preferences");
+    
+    //     // Create a new option.
+    //     // prefs.createPrefItemCheckbox(...);
+    //     preferencesPage.createPrefItemCheckbox('Combo Popup', 'Toggles the combo popup when you hit more than 10 or more notes in a row.', function(value:Bool):Void {
+    //     save.data.combopopup = value; }, save.data.combopopup);
+    // }
+
+
+}
