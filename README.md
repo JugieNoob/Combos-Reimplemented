@@ -1,3 +1,5 @@
+# Combos Reimplemented
+
 A mod that tries to recreate the unused note combo feature shown off in a development stream as closely as possible.  The unused combo popups are also reimplemented.
 
 Features (can be toggled in the Preferences menu):
