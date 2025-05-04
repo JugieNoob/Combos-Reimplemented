@@ -30,8 +30,12 @@ class NoteComboOptions extends Module {
         }
         if (save.data.debugtext == null)
         {
-            save.data.debugtext = true;
+            save.data.debugtext = false;
         }
+        if (save.data.cachestuff == null)
+            {
+                save.data.cachestuff = true;
+            }
     }
 
     function onStateChangeEnd(event)
@@ -53,6 +57,9 @@ class NoteComboOptions extends Module {
                         preferences.createPrefItemCheckbox('Note Combo Sound', "Toggles the note combo sound when the combo swoosh appears.", function(value:Bool):Void {
                         save.data.combosound = value; }, save.data.combosound);
             
+                        preferences.createPrefItemCheckbox('Cache Combo Assets', 'Toggles caching the combo assets, if enabled, it may help with the game stuttering when loading the assets. (requires reloading the game if toggled)', function(value:Bool):Void {
+                            save.data.cachestuff = value; }, save.data.cachestuff);
+
                         preferences.createPrefItemCheckbox('Note Combo Debug Text', 'Toggles the note combo debug text used in the development of the mod.', function(value:Bool):Void {
                         save.data.debugtext = value; }, save.data.debugtext);
             

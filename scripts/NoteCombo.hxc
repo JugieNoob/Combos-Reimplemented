@@ -30,7 +30,16 @@ class NoteCombo extends Module {
         super("Note Combo");
         save = new FlxSave();
         save.bind("NoteComboMod", "JugieNoob");
-        FlxG.sound.cache(Paths.sound("comboSound"));
+
+        if (save.data.cachestuff)
+        {
+            FlxG.sound.cache(Paths.sound("comboSound"));
+            FunkinSprite.cacheSparrow("noteCombo");
+            FunkinSprite.cacheSparrow("noteComboNumbers");
+            FunkinSprite.cacheTexture("combo.png");
+            FunkinSprite.cacheTexture("combo-pixel.png");
+        }
+
     }
 
 
@@ -167,6 +176,7 @@ class NoteCombo extends Module {
     {
         var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
         coolcombo = new FunkinSprite(30, 300);
+        
         coolcombo.loadSparrow("noteCombo");
         coolcombo.animation.addByPrefix("combo", "NOTE COMBO animation instance", 24, false);
         coolcombo.cameras = [PlayState.instance.camHUD];
