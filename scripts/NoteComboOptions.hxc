@@ -2,39 +2,36 @@ import funkin.modding.module.Module;
 import funkin.ui.options.PreferencesMenu;
 import funkin.ui.options.OptionsState;
 import flixel.FlxG;
-import flixel.util.FlxSave;
 import Std;
 
 
 class NoteComboOptions extends Module {
 
     var pagename = OptionsState.PageName;
-    var save:FlxSave = new FlxSave();
 
     function new (){
         super("Note Combo Options", 20);
-        save = new FlxSave();
-        save.bind("NoteComboMod", "JugieNoob");
+        FlxG.save.bind("NoteComboMod", "JugieNoob");
 
-        if (save.data.combopopup == null)
+        if (FlxG.save.data.combopopup == null)
         {
-            save.data.combopopup = true;
+            FlxG.save.data.combopopup = true;
         }
-        if (save.data.comboswoosh == null)
+        if (FlxG.save.data.comboswoosh == null)
         {
-            save.data.comboswoosh = true;
+            FlxG.save.data.comboswoosh = true;
         }
-        if (save.data.combosound == null)
+        if (FlxG.save.data.combosound == null)
         {
-            save.data.combosound = true;
+            FlxG.save.data.combosound = true;
         }
-        if (save.data.debugtext == null)
+        if (FlxG.save.data.debugtext == null)
         {
-            save.data.debugtext = false;
+            FlxG.save.data.debugtext = false;
         }
-        if (save.data.cachestuff == null)
+        if (FlxG.save.data.cachestuff == null)
             {
-                save.data.cachestuff = true;
+                FlxG.save.data.cachestuff = true;
             }
     }
 
@@ -49,23 +46,23 @@ class NoteComboOptions extends Module {
         
         
                         preferences.createPrefItemCheckbox('Combo Popup', 'Toggles the combo popup when you hit more than 10 or more notes in a row.', function(value:Bool):Void {
-                        save.data.combopopup = value; }, save.data.combopopup);
+                        FlxG.save.data.combopopup = value; }, FlxG.save.data.combopopup);
             
                         preferences.createPrefItemCheckbox('Note Combo Swoosh', 'Toggles the combo swoosh that appears after each section in a song.', function(value:Bool):Void {
-                        save.data.comboswoosh = value; }, save.data.comboswoosh);
+                        FlxG.save.data.comboswoosh = value; }, FlxG.save.data.comboswoosh);
             
                         preferences.createPrefItemCheckbox('Note Combo Sound', "Toggles the note combo sound when the combo swoosh appears.", function(value:Bool):Void {
-                        save.data.combosound = value; }, save.data.combosound);
+                        FlxG.save.data.combosound = value; }, FlxG.save.data.combosound);
             
                         preferences.createPrefItemCheckbox('Cache Combo Assets', 'Toggles caching the combo assets, if enabled, it may help with the game stuttering when loading the assets. (requires reloading the game if toggled)', function(value:Bool):Void {
-                            save.data.cachestuff = value; }, save.data.cachestuff);
+                            FlxG.save.data.cachestuff = value; }, FlxG.save.data.cachestuff);
 
                         preferences.createPrefItemCheckbox('Note Combo Debug Text', 'Toggles the note combo debug text used in the development of the mod.', function(value:Bool):Void {
-                        save.data.debugtext = value; }, save.data.debugtext);
+                        FlxG.save.data.debugtext = value; }, FlxG.save.data.debugtext);
             
             
             
-                        save.flush();
+                        FlxG.save.flush();
                     
 
                 }
@@ -79,7 +76,7 @@ class NoteComboOptions extends Module {
     //     // Create a new option.
     //     // prefs.createPrefItemCheckbox(...);
     //     preferencesPage.createPrefItemCheckbox('Combo Popup', 'Toggles the combo popup when you hit more than 10 or more notes in a row.', function(value:Bool):Void {
-    //     save.data.combopopup = value; }, save.data.combopopup);
+    //     FlxG.save.data.combopopup = value; }, FlxG.save.data.combopopup);
     // }
 
 

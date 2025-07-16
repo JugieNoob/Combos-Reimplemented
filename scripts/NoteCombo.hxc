@@ -8,7 +8,6 @@ import flixel.FlxG;
 import funkin.Highscore;
 import funkin.audio.FunkinSound;
 import flixel.text.FlxText;
-import flixel.util.FlxSave;
 import flixel.tweens.FlxTween;
 import flixel.math.FlxMath;
 
@@ -19,7 +18,6 @@ class NoteCombo extends Module {
     var playedcombo = false;
     var holdnoteend = 0;
     var debugtext:FlxText;
-    var save:FlxSave = new FlxSave();
     var coolcombo:FunkinSprite;
     var holdnoteendtime = 0;
     var holdnotestart = 0;
@@ -28,10 +26,9 @@ class NoteCombo extends Module {
 
     function new (){
         super("Note Combo");
-        save = new FlxSave();
-        save.bind("NoteComboMod", "JugieNoob");
+        FlxG.save.bind("NoteComboMod", "JugieNoob");
 
-        if (save.data.cachestuff)
+        if (FlxG.save.data.cachestuff)
         {
             FlxG.sound.cache(Paths.sound("comboSound"));
             FunkinSprite.cacheSparrow("noteCombo");
@@ -51,7 +48,7 @@ class NoteCombo extends Module {
         {
             if (event.note.noteData.getMustHitNote())
             {
-                if (Highscore.tallies.combo >= 9 && save.data.combopopup)
+                if (Highscore.tallies.combo >= 9 && FlxG.save.data.combopopup)
                 {
                     if (PlayState.instance.comboPopUps.visible)
                     {
@@ -60,7 +57,7 @@ class NoteCombo extends Module {
 
                 }
 
-                if (save.data.comboswoosh)
+                if (FlxG.save.data.comboswoosh)
                 {
                     //notehittime is now calculated by using steps instead of ms
                     notehittime = event.note.noteData.getStepTime() + (Conductor.instance.get_bpm() / 16);
@@ -79,7 +76,7 @@ class NoteCombo extends Module {
     }
     override function onCountdownStart(event)
     {
-        if (save.data.debugtext)
+        if (FlxG.save.data.debugtext)
         {
             if (debugtext != null)
             {
@@ -103,12 +100,12 @@ class NoteCombo extends Module {
         {
             if (PlayState.instance != null)
             {
-                if (save.data.debugtext && debugtext != null)
+                if (FlxG.save.data.debugtext && debugtext != null)
                 {
                     debugtext.text = "Combo: " + combo + "\nSong Position: " + Conductor.instance.songPosition + "\nnotehittime: " + notehittime + "\nholdnoteend: "+ holdnoteend + "\nholdnoteendtime: " + holdnoteendtime +"\ncurrent step: " + Conductor.instance.currentStep + "\nhashitnote: " + hashitnote;
                 }
 
-                if (save.data.comboswoosh)
+                if (FlxG.save.data.comboswoosh)
                 {
                     if (Highscore.tallies.combo == 0)
                     {
@@ -225,7 +222,7 @@ class NoteCombo extends Module {
 
         if (coolcombo != null)
         {
-            if (save.data.combosound)
+            if (FlxG.save.data.combosound)
             {
                 FunkinSound.playOnce(Paths.sound("comboSound"));
             }
@@ -276,7 +273,7 @@ class NoteCombo extends Module {
 
 
 
-        if (save.data.comboswoosh)
+        if (FlxG.save.data.comboswoosh)
         {
             loadCoolCombo();
         }
