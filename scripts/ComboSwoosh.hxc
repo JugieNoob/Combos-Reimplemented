@@ -92,7 +92,7 @@ class NoteCombo extends Module {
             {
                 if (FlxG.save.data.debugtext && debugtext != null)
                 {
-                    debugtext.text = "Combo: " + combo + "\nSong Position: " + Conductor.instance.songPosition + "\nnotehittime: " + notehittime + "\nholdnoteend: "+ holdnoteend + "\nholdnoteendtime: " + holdnoteendtime +"\ncurrent step: " + Conductor.instance.currentStep + "\nhashitnote: " + hashitnote;
+                    debugtext.text = "Combo: " + combo + "\nSong Position: " + Conductor.instance.songPosition + "\nnotehittime: " + notehittime + "\nholdnoteend: "+ holdnoteend + "\nholdnoteendtime: " + holdnoteendtime +"\ncurrent step: " + Conductor.instance.currentStep + "\nhashitnote: " + hashitnote + "\nscreen width: " + FlxG.width;
                 }
 
                 if (FlxG.save.data.comboswoosh)
@@ -139,11 +139,11 @@ class NoteCombo extends Module {
             coolcombo.setPosition(30, 300);
         }
 
-        // Temp solution until i find a way to check which platform is being used
-        if (FlxG.width > 1080)
+        // // Temp solution until i find a way to check which platform is being used
+        if (FlxG.width > 1280)
         {
             // Move the combo swoosh to the side on mobile
-            coolcombo.setPosition(-235, 325);
+            coolcombo.setPosition(-235, 255);
         }
 
         comboGroup.add(coolcombo);
@@ -199,7 +199,7 @@ class NoteCombo extends Module {
     function showDebugText()
     {
         debugtext = new FlxText();
-        debugtext.text = "Combo: " + combo + "\nSong Position: " + Conductor.instance.songPosition + "\nnotehittime: " + notehittime + "\nholdnoteend: " + holdnoteend + "\nholdnoteendtime: " + holdnoteendtime +"\ncurrent step: " + Conductor.instance.currentStep + "\nhashitnote: " + hashitnote;
+        debugtext.text = "Combo: " + combo + "\nSong Position: " + Conductor.instance.songPosition + "\nnotehittime: " + notehittime + "\nholdnoteend: " + holdnoteend + "\nholdnoteendtime: " + holdnoteendtime +"\ncurrent step: " + Conductor.instance.currentStep + "\nhashitnote: " + hashitnote + "\nscreen width: " + FlxG.width;
         debugtext.cameras = [PlayState.instance.camHUD];
         debugtext.size = 18;
         debugtext.updateHitbox();

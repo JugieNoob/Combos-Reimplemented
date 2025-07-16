@@ -55,13 +55,15 @@ class NoteComboOptions extends Module {
                         preferences.createPrefItemCheckbox('Combo Swoosh', 'Toggles the combo swoosh that appears after each section in a song.', function(value:Bool):Void {
                         FlxG.save.data.comboswoosh = value; }, FlxG.save.data.comboswoosh);
 
+                        preferences.createPrefItemCheckbox('Combo Swoosh Sound', "Toggles the note combo sound when the combo swoosh appears.", function(value:Bool):Void {
+                        FlxG.save.data.combosound = value; }, FlxG.save.data.combosound);
+            
+
                         preferences.createPrefItemNumber('Combo Swoosh Threshold', 'The minimum amount of combo needed for the Combo Swoosh to activate.', function(value:Int){
                             FlxG.save.data.swooshthreshold = value;
                         }, null, FlxG.save.data.swooshthreshold, 0, 300, 1, 0);
             
-                        preferences.createPrefItemCheckbox('Note Combo Sound', "Toggles the note combo sound when the combo swoosh appears.", function(value:Bool):Void {
-                        FlxG.save.data.combosound = value; }, FlxG.save.data.combosound);
-            
+               
                         preferences.createPrefItemCheckbox('Cache Combo Assets', 'Toggles caching the combo assets, if enabled, it may help with the game stuttering when loading the assets. (requires reloading the game if toggled)', function(value:Bool):Void {
                             FlxG.save.data.cachestuff = value; }, FlxG.save.data.cachestuff);
 
