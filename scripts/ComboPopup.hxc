@@ -1,0 +1,92 @@
+import funkin.play.PlayState;
+import funkin.modding.module.Module;
+import funkin.Paths;
+import funkin.graphics.FunkinSprite;
+import funkin.Conductor;
+import funkin.play.components.PopUpStuff;
+import flixel.FlxG;
+import funkin.Highscore;
+import funkin.audio.FunkinSound;
+import flixel.text.FlxText;
+import flixel.tweens.FlxTween;
+import flixel.math.FlxMath;
+import funkin.modding.base.ScriptedFlxSpriteGroup;
+
+class ComboPopup extends Module {
+
+    function new (){
+        super("Note Combo");
+        FlxG.save.bind("NoteComboMod", "JugieNoob");
+
+        if (FlxG.save.data.cachestuff)
+        {
+            FunkinSprite.cacheTexture("combo.png");
+            FunkinSprite.cacheTexture("combo-pixel.png");
+        }
+
+    }
+
+
+    override function onNoteHit(event)
+    {
+        super.onNoteHit(event);
+
+        if (PlayState.instance != null)
+        {
+            if (event.note.noteData.getMustHitNote())
+            {
+                if (Highscore.tallies.combo >= 9 && FlxG.save.data.combopopup)
+                {
+                    if (PlayState.instance.comboPopUps.visible)
+                    {
+                        showcombospr();
+                    }
+
+                }
+            }
+
+        }
+
+    }
+
+    function showcombospr()
+    {
+        var combospr = new FunkinSprite(100, 100);
+
+        if (PlayState.instance.playerStrumline.noteStyle.id == 'pixel')
+            {
+                combospr.loadTexture("combo-pixel");
+                combospr.scale.set(4, 4);
+                combospr.updateHitbox();
+                combospr.antialiasing = false;
+            }
+            else
+            {
+                combospr.loadTexture("combo");
+                combospr.scale.set(0.6, 0.6);
+                combospr.updateHitbox();
+            }
+
+            combospr.setPosition((FlxG.width * 0.507) + PlayState.instance.comboPopUps.offsets[0] - 60, (FlxG.camera.height * 0.44) + PlayState.instance.comboPopUps.offsets[1]);
+
+        PlayState.instance.comboPopUps.add(combospr);
+
+        //Stuff taken from FNF Source Code
+        combospr.scrollFactor.set(0.2, 0.2);
+        combospr.zIndex = 1000;
+        combospr.acceleration.y = 600;
+        combospr.velocity.y -= 150;
+        combospr.velocity.x += FlxG.random.int(1, 10);
+
+        combospr.cameras = [PlayState.instance.camHUD];
+
+        FlxTween.tween(combospr, {alpha: 0}, 0.2,
+      {
+        onComplete: function(tween:FlxTween) {
+          combospr.destroy();
+        },
+        startDelay: Conductor.instance.beatLengthMs * 0.001
+      });
+
+    }
+}
