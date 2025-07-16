@@ -33,6 +33,10 @@ class NoteComboOptions extends Module {
         {
             FlxG.save.data.cachestuff = true;
         }
+        if (FlxG.save.data.swooshthreshold == null)
+        {
+            FlxG.save.data.swooshthreshold = 0;
+        }
     }
 
     function onStateChangeEnd(event)
@@ -48,8 +52,12 @@ class NoteComboOptions extends Module {
                         preferences.createPrefItemCheckbox('Combo Popup', 'Toggles the combo popup when you hit more than 10 or more notes in a row.', function(value:Bool):Void {
                         FlxG.save.data.combopopup = value; }, FlxG.save.data.combopopup);
             
-                        preferences.createPrefItemCheckbox('Note Combo Swoosh', 'Toggles the combo swoosh that appears after each section in a song.', function(value:Bool):Void {
+                        preferences.createPrefItemCheckbox('Combo Swoosh', 'Toggles the combo swoosh that appears after each section in a song.', function(value:Bool):Void {
                         FlxG.save.data.comboswoosh = value; }, FlxG.save.data.comboswoosh);
+
+                        preferences.createPrefItemNumber('Combo Swoosh Threshold', 'The minimum amount of combo needed for the Combo Swoosh to activate.', function(value:Int){
+                            FlxG.save.data.swooshthreshold = value;
+                        }, null, FlxG.save.data.swooshthreshold, 0, 300, 1, 0);
             
                         preferences.createPrefItemCheckbox('Note Combo Sound', "Toggles the note combo sound when the combo swoosh appears.", function(value:Bool):Void {
                         FlxG.save.data.combosound = value; }, FlxG.save.data.combosound);

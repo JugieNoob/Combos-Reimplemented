@@ -100,14 +100,18 @@ class NoteCombo extends Module {
                     {
                         combo = 0;
                     }
-                    if (Conductor.instance.currentStep >= (notehittime + holdnoteend) && hashitnote && !playedcombo)
+                    else if (combo >= FlxG.save.data.swooshthreshold)
                     {
-                        playedcombo = true;
-                        if (!PlayState.instance.isBotPlayMode)
+                        if (Conductor.instance.currentStep >= (notehittime + holdnoteend) && hashitnote && !playedcombo)
                         {
-                            playCoolCombo();
+                            playedcombo = true;
+                            if (!PlayState.instance.isBotPlayMode)
+                            {
+                                playCoolCombo();
+                            }
                         }
                     }
+                   
 
                 }
             }
