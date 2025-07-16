@@ -30,9 +30,9 @@ class NoteComboOptions extends Module {
             FlxG.save.data.debugtext = false;
         }
         if (FlxG.save.data.cachestuff == null)
-            {
-                FlxG.save.data.cachestuff = true;
-            }
+        {
+            FlxG.save.data.cachestuff = true;
+        }
     }
 
     function onStateChangeEnd(event)
@@ -69,15 +69,4 @@ class NoteComboOptions extends Module {
         
       
     }
-
-    // if (Std.isOfType(event.targetState, OptionsState)) {
-    //     var preferencesPage = event.targetState.optionsCodex.pages.get("preferences");
-    
-    //     // Create a new option.
-    //     // prefs.createPrefItemCheckbox(...);
-    //     preferencesPage.createPrefItemCheckbox('Combo Popup', 'Toggles the combo popup when you hit more than 10 or more notes in a row.', function(value:Bool):Void {
-    //     FlxG.save.data.combopopup = value; }, FlxG.save.data.combopopup);
-    // }
-
-
 }

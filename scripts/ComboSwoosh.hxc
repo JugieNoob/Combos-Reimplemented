@@ -3,12 +3,10 @@ import funkin.modding.module.Module;
 import funkin.Paths;
 import funkin.graphics.FunkinSprite;
 import funkin.Conductor;
-import funkin.play.components.PopUpStuff;
 import flixel.FlxG;
 import funkin.Highscore;
 import funkin.audio.FunkinSound;
 import flixel.text.FlxText;
-import flixel.tweens.FlxTween;
 import flixel.math.FlxMath;
 import funkin.modding.base.ScriptedFlxSpriteGroup;
 
@@ -27,7 +25,7 @@ class NoteCombo extends Module {
 
 
     function new (){
-        super("Note Combo");
+        super("Combo Swoosh");
         FlxG.save.bind("NoteComboMod", "JugieNoob");
 
         if (FlxG.save.data.cachestuff)
@@ -35,8 +33,6 @@ class NoteCombo extends Module {
             FlxG.sound.cache(Paths.sound("comboSound"));
             FunkinSprite.cacheSparrow("noteCombo");
             FunkinSprite.cacheSparrow("noteComboNumbers");
-            FunkinSprite.cacheTexture("combo.png");
-            FunkinSprite.cacheTexture("combo-pixel.png");
         }
 
     }
@@ -50,15 +46,6 @@ class NoteCombo extends Module {
         {
             if (event.note.noteData.getMustHitNote())
             {
-                if (Highscore.tallies.combo >= 9 && FlxG.save.data.combopopup)
-                {
-                    if (PlayState.instance.comboPopUps.visible)
-                    {
-                        // showcombospr();
-                    }
-
-                }
-
                 if (FlxG.save.data.comboswoosh)
                 {
                     //notehittime is now calculated by using steps instead of ms
@@ -129,48 +116,6 @@ class NoteCombo extends Module {
             super.onUpdate(event);
         }
 
-
-    function showcombospr()
-    {
-        var combospr = new FunkinSprite(100, 100);
-
-        if (PlayState.instance.playerStrumline.noteStyle.id == 'pixel')
-            {
-                combospr.loadTexture("combo-pixel");
-                combospr.scale.set(4, 4);
-                combospr.updateHitbox();
-                combospr.antialiasing = false;
-            }
-            else
-            {
-                combospr.loadTexture("combo");
-                combospr.scale.set(0.6, 0.6);
-                combospr.updateHitbox();
-            }
-
-            combospr.setPosition((FlxG.width * 0.507) + PlayState.instance.comboPopUps.offsets[0] - 60, (FlxG.camera.height * 0.44) + PlayState.instance.comboPopUps.offsets[1]);
-
-        PlayState.instance.comboPopUps.add(combospr);
-
-        //Stuff taken from FNF Source Code
-        combospr.scrollFactor.set(0.2, 0.2);
-        combospr.zIndex = 1000;
-        combospr.acceleration.y = 600;
-        combospr.velocity.y -= 150;
-        combospr.velocity.x += FlxG.random.int(1, 10);
-
-        combospr.cameras = [PlayState.instance.camHUD];
-
-        FlxTween.tween(combospr, {alpha: 0}, 0.2,
-      {
-        onComplete: function(tween:FlxTween) {
-          combospr.destroy();
-        },
-        startDelay: Conductor.instance.beatLengthMs * 0.001
-      });
-
-    }
-
     function loadCoolCombo()
     {
         var playerStrumline:FlxSprite = PlayState.instance.playerStrumline;
@@ -178,22 +123,16 @@ class NoteCombo extends Module {
         
         coolcombo.loadSparrow("noteCombo");
         coolcombo.animation.addByPrefix("combo", "NOTE COMBO animation instance", 24, false);
-        coolcombo.cameras = [PlayState.instance.camHUD];
         coolcombo.zIndex = -1000;
 
         if (playerStrumline.x == (FlxG.width / 2) - (playerStrumline.width / 2))
         {
-            comboGroup.setPosition(-235, 325);
+            coolcombo.setPosition(-235, 325);
         }
         else
         {
-            comboGroup.setPosition(30, 300);
+            coolcombo.setPosition(30, 300);
         }
-
-
-        #if mobile
-        coolcombo.setPosition(-235, 325);
-        #end
 
         comboGroup.add(coolcombo);
         coolcombo.visible = false;
@@ -211,7 +150,6 @@ class NoteCombo extends Module {
             //No more lag spike (shouldnt have added all the numbers in the loop)
             coolnumber.animation.addByPrefix(comtostring.charAt(i), comtostring.charAt(i), 18, false);
             coolnumber.animation.play(comtostring.charAt(i));
-            coolnumber.cameras = [PlayState.instance.camHUD];
             coolnumber.zIndex = -1000;
             coolnumber.updateHitbox();
             if (coolcombo != null)
@@ -280,6 +218,11 @@ class NoteCombo extends Module {
         comtostring = "";
 
         comboGroup = new ScriptedFlxSpriteGroup();
+        comboGroup.cameras = [PlayState.instance.camHUD];
+    
+
+
+        // comboGroup.setPosition(40, 40);
         PlayState.instance.add(comboGroup);
 
         if (FlxG.save.data.comboswoosh)

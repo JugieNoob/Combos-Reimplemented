@@ -1,21 +1,15 @@
 import funkin.play.PlayState;
 import funkin.modding.module.Module;
-import funkin.Paths;
 import funkin.graphics.FunkinSprite;
 import funkin.Conductor;
-import funkin.play.components.PopUpStuff;
 import flixel.FlxG;
 import funkin.Highscore;
-import funkin.audio.FunkinSound;
-import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
-import flixel.math.FlxMath;
-import funkin.modding.base.ScriptedFlxSpriteGroup;
 
 class ComboPopup extends Module {
 
     function new (){
-        super("Note Combo");
+        super("Combo Popup");
         FlxG.save.bind("NoteComboMod", "JugieNoob");
 
         if (FlxG.save.data.cachestuff)
@@ -31,11 +25,11 @@ class ComboPopup extends Module {
     {
         super.onNoteHit(event);
 
-        if (PlayState.instance != null)
+        if (FlxG.save.data.combopopup)
         {
-            if (event.note.noteData.getMustHitNote())
+            if (PlayState.instance != null)
             {
-                if (Highscore.tallies.combo >= 9 && FlxG.save.data.combopopup)
+                if (Highscore.tallies.combo >= 9 && event.note.noteData.getMustHitNote())
                 {
                     if (PlayState.instance.comboPopUps.visible)
                     {
