@@ -37,6 +37,10 @@ class NoteComboOptions extends Module {
         {
             FlxG.save.data.swooshthreshold = 0;
         }
+        if (FlxG.save.data.reversenumanim == null)
+        {
+            FlxG.save.data.reversenumanim = false;
+        }
     }
 
     function onStateChangeEnd(event)
@@ -57,6 +61,10 @@ class NoteComboOptions extends Module {
 
                         preferences.createPrefItemCheckbox('Combo Swoosh Sound', "Toggles the note combo sound when the combo swoosh appears.", function(value:Bool):Void {
                         FlxG.save.data.combosound = value; }, FlxG.save.data.combosound);
+
+                        
+                        preferences.createPrefItemCheckbox('Reverse Swoosh Number Animation', "Reverses the combo swoosh's numbers to make the animation more accurate to the one shown in the development stream.", function(value:Bool):Void {
+                        FlxG.save.data.reversenumanim = value; }, FlxG.save.data.reversenumanim);
             
 
                         preferences.createPrefItemNumber('Combo Swoosh Threshold', 'The minimum amount of combo needed for the Combo Swoosh to activate.', function(value:Int){

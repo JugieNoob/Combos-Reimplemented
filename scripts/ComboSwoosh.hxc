@@ -161,7 +161,7 @@ class NoteCombo extends Module {
    
             //No more lag spike (shouldnt have added all the numbers in the loop)
             coolnumber.animation.addByPrefix(comtostring.charAt(i), comtostring.charAt(i), 18, false);
-            coolnumber.animation.play(comtostring.charAt(i));
+            coolnumber.animation.play(comtostring.charAt(i), false, FlxG.save.data.reversenumanim);
             coolnumber.zIndex = -1000;
             coolnumber.updateHitbox();
             if (coolcombo != null)
