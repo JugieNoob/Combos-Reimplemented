@@ -11,7 +11,6 @@ class NoteComboOptions extends Module {
 
     function new (){
         super("Note Combo Options", 20);
-        FlxG.save.bind("NoteComboMod", "JugieNoob");
 
         if (FlxG.save.data.combopopup == null)
         {
