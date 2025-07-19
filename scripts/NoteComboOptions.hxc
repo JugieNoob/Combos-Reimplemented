@@ -73,10 +73,6 @@ class NoteComboOptions extends Module {
                
                         preferences.createPrefItemCheckbox('Cache Combo Assets', 'Toggles caching the combo assets, if enabled, it may help with the game stuttering when loading the assets. (requires reloading the game if toggled)', function(value:Bool):Void {
                             FlxG.save.data.cachestuff = value; }, FlxG.save.data.cachestuff);
-
-                        preferences.createPrefItemCheckbox('Note Combo Debug Text', 'Toggles the note combo debug text used in the development of the mod.', function(value:Bool):Void {
-                        FlxG.save.data.debugtext = value; }, FlxG.save.data.debugtext);
-            
             
             
                         FlxG.save.flush();
