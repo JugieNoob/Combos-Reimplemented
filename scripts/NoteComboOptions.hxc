@@ -53,31 +53,38 @@ class NoteComboOptions extends Module {
         
         
                         preferences.createPrefItemCheckbox('Combo Popup', 'Toggles the combo popup when you hit more than 10 or more notes in a row.', function(value:Bool):Void {
-                        FlxG.save.data.combopopup = value; }, FlxG.save.data.combopopup);
+                        FlxG.save.data.combopopup = value; 
+                        FlxG.save.flush();
+                    }
+                        , FlxG.save.data.combopopup);
             
                         preferences.createPrefItemCheckbox('Combo Swoosh', 'Toggles the combo swoosh that appears after each section in a song.', function(value:Bool):Void {
-                        FlxG.save.data.comboswoosh = value; }, FlxG.save.data.comboswoosh);
+                        FlxG.save.data.comboswoosh = value;
+                        FlxG.save.flush();
+                    }, FlxG.save.data.comboswoosh);
 
                         preferences.createPrefItemCheckbox('Combo Swoosh Sound', "Toggles the note combo sound when the combo swoosh appears.", function(value:Bool):Void {
-                        FlxG.save.data.combosound = value; }, FlxG.save.data.combosound);
+                        FlxG.save.data.combosound = value; 
+                        FlxG.save.flush();
+                    }, FlxG.save.data.combosound);
 
                         
                         preferences.createPrefItemCheckbox('Reverse Swoosh Number Animation', "Reverses the combo swoosh's numbers to make the animation more accurate to the one shown in the development stream.", function(value:Bool):Void {
-                        FlxG.save.data.reversenumanim = value; }, FlxG.save.data.reversenumanim);
+                        FlxG.save.data.reversenumanim = value;
+                        FlxG.save.flush();
+                    }, FlxG.save.data.reversenumanim);
             
 
                         preferences.createPrefItemNumber('Combo Swoosh Threshold', 'The minimum amount of combo needed for the Combo Swoosh to activate.', function(value:Int){
                             FlxG.save.data.swooshthreshold = value;
-                        }, null, FlxG.save.data.swooshthreshold, 0, 300, 1, 0);
-            
+                            FlxG.save.flush();
+                    }, null, FlxG.save.data.swooshthreshold, 0, 300, 1, 0);
+        
                
                         preferences.createPrefItemCheckbox('Cache Combo Assets', 'Toggles caching the combo assets, if enabled, it may help with the game stuttering when loading the assets. (requires reloading the game if toggled)', function(value:Bool):Void {
-                            FlxG.save.data.cachestuff = value; }, FlxG.save.data.cachestuff);
-            
-            
-                        FlxG.save.flush();
-                    
-
+                            FlxG.save.data.cachestuff = value;
+                            FlxG.save.flush();
+                    }, FlxG.save.data.cachestuff);
                 }
         
       

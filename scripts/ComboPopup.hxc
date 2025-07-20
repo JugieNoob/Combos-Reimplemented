@@ -10,8 +10,6 @@ class ComboPopup extends Module {
 
     function new (){
         super("Combo Popup");
-        FlxG.save.bind("NoteComboMod", "JugieNoob");
-
         if (FlxG.save.data.cachestuff)
         {
             FunkinSprite.cacheTexture("combo.png");

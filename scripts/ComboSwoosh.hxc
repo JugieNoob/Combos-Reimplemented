@@ -26,8 +26,7 @@ class NoteCombo extends Module {
 
     function new (){
         super("Combo Swoosh");
-        FlxG.save.bind("NoteComboMod", "JugieNoob");
-
+        
         if (FlxG.save.data.cachestuff)
         {
             FlxG.sound.cache(Paths.sound("comboSound"));
