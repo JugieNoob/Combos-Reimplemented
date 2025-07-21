@@ -33,7 +33,6 @@ class NoteCombo extends Module {
             FunkinSprite.cacheSparrow("noteCombo");
             FunkinSprite.cacheSparrow("noteComboNumbers");
         }
-
     }
 
 
@@ -130,7 +129,10 @@ class NoteCombo extends Module {
             coolcombo.setPosition(-235, 255);
         }
 
-        comboGroup.add(coolcombo);
+        // comboGroup.add(coolcombo);
+        coolcombo.cameras = [PlayState.instance.camHUD];
+
+        PlayState.instance.add(coolcombo);
         coolcombo.visible = false;
     }
 
@@ -154,11 +156,17 @@ class NoteCombo extends Module {
             }
             combo = 0;
 
-            comboGroup.add(coolnumber);
+            coolnumber.cameras = [PlayState.instance.camHUD];
+
+            // comboGroup.add(coolnumber);
+            PlayState.instance.add(coolnumber);
+
 
             coolnumber.animation.finishCallback = function(combo)
             {
-            	comboGroup.remove(coolnumber);
+            	// comboGroup.remove(coolnumber);
+                PlayState.instance.remove(coolnumber);
+
             }
         }
 
@@ -213,8 +221,8 @@ class NoteCombo extends Module {
         notehittime = 0;
         comtostring = "";
 
-        comboGroup = new ScriptedFlxSpriteGroup();
-        comboGroup.cameras = [PlayState.instance.camHUD];
+        // comboGroup = new ScriptedFlxSpriteGroup();
+        // comboGroup.cameras = [PlayState.instance.camHUD];
     
 
 
