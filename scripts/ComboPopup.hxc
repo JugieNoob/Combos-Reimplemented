@@ -29,7 +29,7 @@ class ComboPopup extends Module {
             {
                 if (Highscore.tallies.combo >= 9 && event.note.noteData.getMustHitNote())
                 {
-                    if (PlayState.instance.comboPopUps.visible)
+                    if (PlayState.instance.comboPopUps.visible && PlayState.instance.comboPopUps.noteStyle.buildJudgementSprite("good") != null)
                     {
                         showcombospr();
                     }
