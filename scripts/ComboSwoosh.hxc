@@ -8,7 +8,7 @@ import funkin.Highscore;
 import funkin.audio.FunkinSound;
 import flixel.text.FlxText;
 import flixel.math.FlxMath;
-import funkin.modding.base.ScriptedFlxSpriteGroup;
+import flixel.group.FlxTypedGroup;
 
 class NoteCombo extends Module {
     var combo = 0;
@@ -21,7 +21,7 @@ class NoteCombo extends Module {
     var holdnoteendtime = 0;
     var holdnotestart = 0;
     var comtostring = "";
-    var comboGroup:ScriptedFlxSpriteGroup;
+    var comboGroup:FlxTypedGroup;
 
 
     function new (){
@@ -65,6 +65,8 @@ class NoteCombo extends Module {
     {
         super.onCountdownStart(event);
         initVariables();
+        combo = 21;
+        playCoolCombo();
     }
 
     override function onCountdownEnd(event)
@@ -138,10 +140,10 @@ class NoteCombo extends Module {
             coolcombo.setPosition(-235, 255);
         }
 
-        // comboGroup.add(coolcombo);
-        coolcombo.cameras = [PlayState.instance.camHUD];
+        comboGroup.add(coolcombo);
+        // coolcombo.camera = PlayState.instance.camHUD;
 
-        PlayState.instance.add(coolcombo);
+        // PlayState.instance.add(coolcombo);
         coolcombo.visible = false;
     }
 
@@ -157,7 +159,6 @@ class NoteCombo extends Module {
             //No more lag spike (shouldnt have added all the numbers in the loop)
             coolnumber.animation.addByPrefix(comtostring.charAt(i), comtostring.charAt(i), 20, false);
             coolnumber.animation.play(comtostring.charAt(i), false, FlxG.save.data.reversenumanim);
-            coolnumber.zIndex = -1000;
             coolnumber.updateHitbox();
             if (coolcombo != null)
             {
@@ -165,16 +166,16 @@ class NoteCombo extends Module {
             }
             combo = 0;
 
-            coolnumber.cameras = [PlayState.instance.camHUD];
+            // coolnumber.camera = PlayState.instance.camHUD;
 
-            // comboGroup.add(coolnumber);
-            PlayState.instance.add(coolnumber);
+            comboGroup.add(coolnumber);
+            // PlayState.instance.add(coolnumber);
 
 
             coolnumber.animation.finishCallback = function(combo)
             {
-            	// comboGroup.remove(coolnumber);
-                PlayState.instance.remove(coolnumber);
+            	comboGroup.remove(coolnumber);
+                // PlayState.instance.remove(coolnumber);
 
             }
         }
@@ -230,12 +231,9 @@ class NoteCombo extends Module {
         notehittime = 0;
         comtostring = "";
 
-        // comboGroup = new ScriptedFlxSpriteGroup();
-        // comboGroup.cameras = [PlayState.instance.camHUD];
-    
+        comboGroup = new FlxTypedGroup();
+        comboGroup.cameras = [PlayState.instance.camHUD];
 
-
-        // comboGroup.setPosition(40, 40);
         PlayState.instance.add(comboGroup);
 
         if (FlxG.save.data.comboswoosh)
