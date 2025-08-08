@@ -73,7 +73,12 @@ class NoteCombo extends Module {
     {
         super.onCountdownEnd(event);
 
-        if (PlayState.instance.playerStrumline.x == (FlxG.width / 2 - PlayState.instance.playerStrumline.width / 2))
+        // Move the combo swoosh to the side on mobile
+        if (FlxG.width > 1280 && Preferences.controlsScheme == "Arrows")
+        {
+            coolcombo.setPosition(-235, 255);
+        }
+        else if (PlayState.instance.playerStrumline.x == (FlxG.width / 2 - PlayState.instance.playerStrumline.width / 2))
         {
             coolcombo.setPosition(-235, 325);
         }
@@ -129,22 +134,9 @@ class NoteCombo extends Module {
         
         coolcombo.loadSparrow("noteCombo");
         coolcombo.animation.addByPrefix("combo", "NOTE COMBO animation instance", 24, false);
-        coolcombo.zIndex = -1000;
-
-      
-
-        // // Temp solution until i find a way to check which platform is being used
-        if (FlxG.width > 1280)
-        {
-            // Move the combo swoosh to the side on mobile
-            coolcombo.setPosition(-235, 255);
-        }
+        coolcombo.visible = false;
 
         comboGroup.add(coolcombo);
-        // coolcombo.camera = PlayState.instance.camHUD;
-
-        // PlayState.instance.add(coolcombo);
-        coolcombo.visible = false;
     }
 
     function playCoolCombo()
@@ -166,17 +158,11 @@ class NoteCombo extends Module {
             }
             combo = 0;
 
-            // coolnumber.camera = PlayState.instance.camHUD;
-
             comboGroup.add(coolnumber);
-            // PlayState.instance.add(coolnumber);
-
 
             coolnumber.animation.finishCallback = function(combo)
             {
             	comboGroup.remove(coolnumber);
-                // PlayState.instance.remove(coolnumber);
-
             }
         }
 
@@ -245,17 +231,17 @@ class NoteCombo extends Module {
     function checkSustain()
     {
         //Rewrote the sutain note stuff
-            if (event.note.noteData.getStepLength() > 0 && event.note.noteData.getMustHitNote())
-            {
-                holdnotestart = event.note.noteData.getStepTime();
-                holdnoteend = FlxMath.roundDecimal(event.note.noteData.getStepLength());
-                holdnoteendtime = Conductor.instance.currentStep + holdnoteend + 4;
-            }
-            else
-            {
-                holdnotestart = 0;
-                holdnoteend = 0;
-                holdnoteendtime = 0;
-            }
+        if (event.note.noteData.getStepLength() > 0 && event.note.noteData.getMustHitNote())
+        {
+            holdnotestart = event.note.noteData.getStepTime();
+            holdnoteend = FlxMath.roundDecimal(event.note.noteData.getStepLength());
+            holdnoteendtime = Conductor.instance.currentStep + holdnoteend + 4;
+        }
+        else
+        {
+            holdnotestart = 0;
+            holdnoteend = 0;
+            holdnoteendtime = 0;
+        }
     }
 }
