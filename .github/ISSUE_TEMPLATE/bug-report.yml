@@ -1,0 +1,63 @@
+name: Bug Report
+description: Please describe your issue and fill out all the required fields.
+title: 'Bug Report:'
+labels: ["bug"]
+assignees: JugieNoob
+title: "Bug Report: "
+body:
+  - type: checkboxes
+    attributes:
+      label: Checklist
+      description: Make sure to do all of these!
+      options:
+        - label: I have tested this bug without any other mods installed.
+        - label: I have checked that this bug hasn't been reported.
+        - label: I have properly titled my issue.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Mod Version
+      placeholder: ex. 1.0.0
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: FNF Version
+      placeholder: ex. 0.7.0
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: Device
+      description: Which platform are you playing on?
+      options:
+        - Mobile
+        - PC
+    validations:
+      required: true
+
+
+  - type: textarea
+    attributes:
+      label: Describe the bug you encountered
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: How to reproduce this bug
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Crash Log
+      description: Copy and paste the crash log if one was generated.
+      
+  - type: textarea
+    attributes:
+      label: Additional context
+
