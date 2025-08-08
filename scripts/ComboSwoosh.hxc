@@ -65,8 +65,6 @@ class NoteCombo extends Module {
     {
         super.onCountdownStart(event);
         initVariables();
-        combo = 21;
-        playCoolCombo();
     }
 
     override function onCountdownEnd(event)
@@ -74,7 +72,7 @@ class NoteCombo extends Module {
         super.onCountdownEnd(event);
 
         // Move the combo swoosh to the side on mobile
-        if (FlxG.width > 1280 && Preferences.controlsScheme == "Arrows")
+        if (FlxG.width > 1280)
         {
             coolcombo.setPosition(-235, 255);
         }
