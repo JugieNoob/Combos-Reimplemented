@@ -1,10 +1,74 @@
-import flixel.group.FlxTypedGroup;
-import flixel.group.FlxSprite;
+import flixel.group.FlxTypedSpriteGroup;
+import funkin.graphics.FunkinSprite;
+import funkin.audio.FunkinSound;
+import flixel.FlxG;
 
 
-class ComboSwoosh extends FlxTypedGroup {
-    public function new()
+class ComboSwoosh extends FlxTypedSpriteGroup {
+
+    var coolcombo:FunkinSprite;
+
+    public function new(x = 0, y = 0)
     {
-        
+        super(x, y);
+        coolcombo = new FunkinSprite();
+        // 30, 300
+        coolcombo.loadSparrow("noteCombo");
+        coolcombo.animation.addByPrefix("combo", "NOTE COMBO animation instance", 24, false);
+        // coolcombo.visible = false;
+
+        add(coolcombo);
+
+        visible = false;
+    }
+
+    override public function update(elapsed)
+    {
+        super.update(elapsed);
+        if (FlxG.keys.justPressed.N)
+        {
+            // coolcombo.animation.play("combo", true);
+            playCombo();
+        }
+    }
+
+    public function playCombo(combo:Int)
+    {
+        combo = 10;
+        var comboToString = Std.string(combo);
+
+        for (i in 0...comboToString.length)
+        {
+            var coolnumber = new FunkinSprite();
+            coolnumber.loadSparrow("noteComboNumbers");
+   
+            //No more lag spike (shouldnt have added all the numbers in the loop)
+            coolnumber.animation.addByPrefix(comboToString.charAt(i), comboToString.charAt(i), 20, false);
+            coolnumber.animation.play(comboToString.charAt(i), false, FlxG.save.data.reversenumanim);
+            coolnumber.updateHitbox();
+
+            if (coolcombo != null)
+            {
+                coolnumber.setPosition(((-50 - (coolnumber.width / 2)) * (comboToString.length - i)) + (coolcombo.x + 568), coolcombo.y + (35 * (comboToString.length - i)) - 44); //35
+            }
+
+            add(coolnumber);
+
+            coolnumber.animation.finishCallback = function(combo)
+            {
+            	remove(coolnumber);
+            }
+        }
+        if (FlxG.save.data.combosound)
+        {
+            FunkinSound.playOnce(Paths.sound("comboSound"));
+        }
+        visible = true;
+        coolcombo.animation.play("combo", true);
+
+        coolcombo.animation.finishCallback = function(combo)
+		{
+			visible = false;
+        }
     }
 }

@@ -65,6 +65,7 @@ class NoteCombo extends Module {
     {
         super.onCountdownStart(event);
         initVariables();
+        // PlayState.instance.add(comboSwoosh);
     }
 
     override function onCountdownEnd(event)
@@ -72,18 +73,25 @@ class NoteCombo extends Module {
         super.onCountdownEnd(event);
 
         // Move the combo swoosh to the side on mobile
-        if (FlxG.width > 1280)
-        {
-            coolcombo.setPosition(-235, 255);
-        }
-        else if (PlayState.instance.playerStrumline.x == (FlxG.width / 2 - PlayState.instance.playerStrumline.width / 2))
-        {
-            coolcombo.setPosition(-235, 325);
-        }
-        else
-        {
-            coolcombo.setPosition(30, 300);
-        }
+        // if (FlxG.width > 1280)
+        // {
+        //     coolcombo.setPosition(-235, 255);
+        // }
+        // else if (PlayState.instance.playerStrumline.x == (FlxG.width / 2 - PlayState.instance.playerStrumline.width / 2))
+        // {
+        //     coolcombo.setPosition(-235, 325);
+        // }
+        // else
+        // {
+        //     coolcombo.setPosition(30, 300);
+        // }
+    }
+
+    override function onStateChangeEnd(event)
+    {
+        super.onStateChangeEnd(event);
+        var comboSwoosh = new ComboSwoosh(0,0);
+        event.targetState.add(comboSwoosh);
     }
 
 
@@ -109,7 +117,7 @@ class NoteCombo extends Module {
                             playedcombo = true;
                             if (!PlayState.instance.isBotPlayMode)
                             {
-                                playCoolCombo();
+                                // playCoolCombo();
                             }
                         }
                     }
@@ -197,10 +205,10 @@ class NoteCombo extends Module {
 
     function initVariables()
     {
-        if (coolcombo != null)
-        {
-            coolcombo.destroy();
-        }
+        // if (coolcombo != null)
+        // {
+        //     coolcombo.destroy();
+        // }
 
         if (PlayState.instance.isBotPlayMode)
         {
@@ -222,7 +230,7 @@ class NoteCombo extends Module {
 
         if (FlxG.save.data.comboswoosh)
         {
-            loadCoolCombo();
+            // loadCoolCombo();
         }
     }
 
