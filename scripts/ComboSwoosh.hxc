@@ -6,18 +6,18 @@ import flixel.FlxG;
 
 class ComboSwoosh extends FlxTypedSpriteGroup {
 
-    var coolcombo:FunkinSprite;
+    var coolCombo:FunkinSprite;
 
     public function new(x = 0, y = 0)
     {
         super(x, y);
-        coolcombo = new FunkinSprite();
+        coolCombo = new FunkinSprite(0,0);
         // 30, 300
-        coolcombo.loadSparrow("noteCombo");
-        coolcombo.animation.addByPrefix("combo", "NOTE COMBO animation instance", 24, false);
-        // coolcombo.visible = false;
+        coolCombo.loadSparrow("noteCombo");
+        coolCombo.animation.addByPrefix("combo", "NOTE COMBO animation instance", 24, false);
+        // coolCombo.visible = false;
 
-        add(coolcombo);
+        add(coolCombo);
 
         visible = false;
     }
@@ -27,36 +27,40 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
         super.update(elapsed);
         if (FlxG.keys.justPressed.N)
         {
-            // coolcombo.animation.play("combo", true);
+            // coolCombo.animation.play("combo", true);
             playCombo();
         }
     }
 
     public function playCombo(combo:Int)
     {
-        combo = 10;
+        combo = 100;
         var comboToString = Std.string(combo);
 
         for (i in 0...comboToString.length)
         {
-            var coolnumber = new FunkinSprite();
-            coolnumber.loadSparrow("noteComboNumbers");
+            var coolNumber = new FunkinSprite();
+            coolNumber.loadSparrow("noteComboNumbers");
    
             //No more lag spike (shouldnt have added all the numbers in the loop)
-            coolnumber.animation.addByPrefix(comboToString.charAt(i), comboToString.charAt(i), 20, false);
-            coolnumber.animation.play(comboToString.charAt(i), false, FlxG.save.data.reversenumanim);
-            coolnumber.updateHitbox();
+            coolNumber.animation.addByPrefix(comboToString.charAt(i), comboToString.charAt(i), 20, false);
+            coolNumber.animation.play(comboToString.charAt(i), false, FlxG.save.data.reversenumanim);
+            coolNumber.updateHitbox();
 
-            if (coolcombo != null)
+            coolNumber.setPosition(((-50 - (coolNumber.width / 2)) * (comboToString.length - i)) + (coolCombo.x + 575), coolCombo.y + (35 * (comboToString.length - i)) - 35); //35
+
+            // coolNumber.setPosition((coolCombo.x + 610) - (coolNumber.width) -  (100 * (comboToString.length - i)), coolCombo.y);
+            // if (coolCombo != null)
+            // {
+                // coolNumber.setPosition((-coolNumber.width * (comboToString.length - i)) + (coolCombo.x + 568), 0); //35 //coolCombo.y + (35 * (comboToString.length - i)) - 35
+            //     //((-50 - (coolNumber.width / 2)) * (comboToString.length - i)) + 
+            // }
+
+            add(coolNumber);
+
+            coolNumber.animation.finishCallback = function(combo)
             {
-                coolnumber.setPosition(((-50 - (coolnumber.width / 2)) * (comboToString.length - i)) + (coolcombo.x + 568), coolcombo.y + (35 * (comboToString.length - i)) - 44); //35
-            }
-
-            add(coolnumber);
-
-            coolnumber.animation.finishCallback = function(combo)
-            {
-            	remove(coolnumber);
+            	remove(coolNumber);
             }
         }
         if (FlxG.save.data.combosound)
@@ -64,9 +68,9 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
             FunkinSound.playOnce(Paths.sound("comboSound"));
         }
         visible = true;
-        coolcombo.animation.play("combo", true);
+        coolCombo.animation.play("combo", true);
 
-        coolcombo.animation.finishCallback = function(combo)
+        coolCombo.animation.finishCallback = function(combo)
 		{
 			visible = false;
         }
