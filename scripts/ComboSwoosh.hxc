@@ -8,16 +8,25 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
 
     var coolCombo:FunkinSprite;
 
+    var testCombo = 999;
+
+    // Offsets for the coolNumbers, each index represents a number.
+    var numberOffset = [0,40];
+
+    var numberGroup:FlxTypedSpriteGroup;
+
     public function new(x = 0, y = 0)
     {
         super(x, y);
         coolCombo = new FunkinSprite(0,0);
+        numberGroup = new FlxTypedSpriteGroup();
         // 30, 300
         coolCombo.loadSparrow("noteCombo");
         coolCombo.animation.addByPrefix("combo", "NOTE COMBO animation instance", 24, false);
         // coolCombo.visible = false;
 
         add(coolCombo);
+        add(numberGroup);
 
         visible = false;
     }
@@ -28,13 +37,14 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
         if (FlxG.keys.justPressed.N)
         {
             // coolCombo.animation.play("combo", true);
-            playCombo();
+            playCombo(testCombo);
+            testCombo++;
         }
     }
 
     public function playCombo(combo:Int)
     {
-        combo = 100;
+        // combo = 100;
         var comboToString = Std.string(combo);
 
         for (i in 0...comboToString.length)
@@ -42,25 +52,44 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
             var coolNumber = new FunkinSprite();
             coolNumber.loadSparrow("noteComboNumbers");
    
+            var curNum = comboToString.length - (i + 1);
+            trace("test: " + curNum);
             //No more lag spike (shouldnt have added all the numbers in the loop)
-            coolNumber.animation.addByPrefix(comboToString.charAt(i), comboToString.charAt(i), 20, false);
-            coolNumber.animation.play(comboToString.charAt(i), false, FlxG.save.data.reversenumanim);
+            coolNumber.animation.addByPrefix(comboToString.charAt(curNum), comboToString.charAt(curNum), 20, false);
+            coolNumber.animation.play(comboToString.charAt(curNum), false, FlxG.save.data.reversenumanim);
             coolNumber.updateHitbox();
 
-            coolNumber.setPosition(((-50 - (coolNumber.width / 2)) * (comboToString.length - i)) + (coolCombo.x + 575), coolCombo.y + (35 * (comboToString.length - i)) - 35); //35
+            // Manual offset because it looks horrible
+            if (comboToString.charAt(curNum) == "5")
+            {
+                coolNumber.offset.set(10, 20);
+            }
 
+            // coolNumber.setPosition(((-50 - (coolNumber.width / 2)) * (comboToString.length - i)) + 575, (35 * (comboToString.length - i)) - 35); //35
+            //  + numberOffset[comboToString.charAt(i)]
+            if (curNum == comboToString.length - 1)
+            {
+                coolNumber.setPosition((coolCombo.width / 2) - (coolNumber.width / 1.75), 0); //
+            }
+            else
+            {
+                coolNumber.setPosition((numberGroup.members[i - 1].x + 40) - coolNumber.width, (35 * i));
+            }
+            
+            // coolNumber.x -= (coolNumber.width) * (comboToString.length-(i + 1));
+            // coolNumber.x += numberOffset[comboToString.charAt(i)];
             // coolNumber.setPosition((coolCombo.x + 610) - (coolNumber.width) -  (100 * (comboToString.length - i)), coolCombo.y);
             // if (coolCombo != null)
             // {
                 // coolNumber.setPosition((-coolNumber.width * (comboToString.length - i)) + (coolCombo.x + 568), 0); //35 //coolCombo.y + (35 * (comboToString.length - i)) - 35
             //     //((-50 - (coolNumber.width / 2)) * (comboToString.length - i)) + 
             // }
-
-            add(coolNumber);
+            // trace("" + (comboToString.length - i));
+            numberGroup.add(coolNumber);
 
             coolNumber.animation.finishCallback = function(combo)
             {
-            	remove(coolNumber);
+            	numberGroup.clear();
             }
         }
         if (FlxG.save.data.combosound)
