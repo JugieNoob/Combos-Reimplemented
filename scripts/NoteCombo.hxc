@@ -1,0 +1,245 @@
+import funkin.play.PlayState;
+import funkin.modding.module.Module;
+import funkin.Paths;
+import funkin.graphics.FunkinSprite;
+import funkin.Conductor;
+import flixel.FlxG;
+import funkin.Highscore;
+import funkin.audio.FunkinSound;
+import flixel.text.FlxText;
+import flixel.math.FlxMath;
+import flixel.group.FlxTypedGroup;
+
+class NoteCombo extends Module {
+    var combo = 0;
+    var hashitnote = false;
+    var notehittime = 0;
+    var playedcombo = false;
+    var holdnoteend = 0;
+    var debugtext:FlxText;
+    var coolcombo:FunkinSprite;
+    var holdnoteendtime = 0;
+    var holdnotestart = 0;
+    var comtostring = "";
+    var comboGroup:FlxTypedGroup;
+
+
+    function new (){
+        super("Combo Swoosh");
+        
+        if (FlxG.save.data.cachestuff)
+        {
+            FlxG.sound.cache(Paths.sound("comboSound"));
+            FunkinSprite.cacheSparrow("noteCombo");
+            FunkinSprite.cacheSparrow("noteComboNumbers");
+        }
+    }
+
+
+    override function onNoteHit(event)
+    {
+        super.onNoteHit(event);
+
+        if (PlayState.instance != null)
+        {
+            if (event.note.noteData.getMustHitNote())
+            {
+                if (FlxG.save.data.comboswoosh)
+                {
+                    //notehittime is now calculated by using steps instead of ms
+                    notehittime = event.note.noteData.getStepTime() + (Conductor.instance.get_bpm() / 16);
+                    combo++;
+                    hashitnote = true;
+                    playedcombo = false;
+                    checkSustain();
+                }
+
+            }
+
+        }
+
+
+
+    }
+    override function onCountdownStart(event)
+    {
+        super.onCountdownStart(event);
+        initVariables();
+    }
+
+    override function onCountdownEnd(event)
+    {
+        super.onCountdownEnd(event);
+
+        // Move the combo swoosh to the side on mobile
+        if (FlxG.width > 1280)
+        {
+            coolcombo.setPosition(-235, 255);
+        }
+        else if (PlayState.instance.playerStrumline.x == (FlxG.width / 2 - PlayState.instance.playerStrumline.width / 2))
+        {
+            coolcombo.setPosition(-235, 325);
+        }
+        else
+        {
+            coolcombo.setPosition(30, 300);
+        }
+    }
+
+
+    override function onUpdate(event)
+        {
+            if (PlayState.instance != null)
+            {
+                if (FlxG.save.data.debugtext && debugtext != null)
+                {
+                    debugtext.text = "Combo: " + combo + "\nSong Position: " + Conductor.instance.songPosition + "\nnotehittime: " + notehittime + "\nholdnoteend: "+ holdnoteend + "\nholdnoteendtime: " + holdnoteendtime +"\ncurrent step: " + Conductor.instance.currentStep + "\nhashitnote: " + hashitnote + "\nscreen width: " + FlxG.width;
+                }
+
+                if (FlxG.save.data.comboswoosh)
+                {
+                    if (Highscore.tallies.combo == 0)
+                    {
+                        combo = 0;
+                    }
+                    else if (combo >= FlxG.save.data.swooshthreshold)
+                    {
+                        if (Conductor.instance.currentStep >= (notehittime + holdnoteend) && hashitnote && !playedcombo)
+                        {
+                            playedcombo = true;
+                            if (!PlayState.instance.isBotPlayMode)
+                            {
+                                playCoolCombo();
+                            }
+                        }
+                    }
+                   
+
+                }
+                
+            }
+
+
+            super.onUpdate(event);
+
+          
+         
+        }
+
+    function loadCoolCombo()
+    {
+        coolcombo = new FunkinSprite(30, 300);
+        
+        coolcombo.loadSparrow("noteCombo");
+        coolcombo.animation.addByPrefix("combo", "NOTE COMBO animation instance", 24, false);
+        coolcombo.visible = false;
+
+        comboGroup.add(coolcombo);
+    }
+
+    function playCoolCombo()
+    {
+        comtostring = Std.string(combo);
+
+        for (i in 0...comtostring.length)
+        {
+            var coolnumber = new FunkinSprite();
+            coolnumber.loadSparrow("noteComboNumbers");
+   
+            //No more lag spike (shouldnt have added all the numbers in the loop)
+            coolnumber.animation.addByPrefix(comtostring.charAt(i), comtostring.charAt(i), 20, false);
+            coolnumber.animation.play(comtostring.charAt(i), false, FlxG.save.data.reversenumanim);
+            coolnumber.updateHitbox();
+            if (coolcombo != null)
+            {
+                coolnumber.setPosition(((-50 - (coolnumber.width / 2)) * (comtostring.length - i)) + (coolcombo.x + 568), coolcombo.y + (35 * (comtostring.length - i)) - 44);
+            }
+            combo = 0;
+
+            comboGroup.add(coolnumber);
+
+            coolnumber.animation.finishCallback = function(combo)
+            {
+            	comboGroup.remove(coolnumber);
+            }
+        }
+
+        if (coolcombo != null)
+        {
+            if (FlxG.save.data.combosound)
+            {
+                FunkinSound.playOnce(Paths.sound("comboSound"));
+            }
+
+            coolcombo.visible = true;
+            coolcombo.animation.play("combo");
+        }
+
+        coolcombo.animation.finishCallback = function(combo)
+		{
+			coolcombo.visible = false;
+		};
+
+    }
+
+    function showDebugText()
+    {
+        debugtext = new FlxText();
+        // debugtext.text = "Combo: " + combo + "\nSong Position: " + Conductor.instance.songPosition + "\nnotehittime: " + notehittime + "\nholdnoteend: " + holdnoteend + "\nholdnoteendtime: " + holdnoteendtime +"\ncurrent step: " + Conductor.instance.currentStep + "\nhashitnote: " + hashitnote + "\nscreen width: " + FlxG.width;
+        debugtext.cameras = [PlayState.instance.camHUD];
+        debugtext.size = 18;
+        debugtext.updateHitbox();
+        debugtext.setPosition(30, FlxG.height - debugtext.height - 10);
+        debugtext.zIndex = 1000;
+        PlayState.instance.add(debugtext);
+    }
+
+
+    function initVariables()
+    {
+        if (coolcombo != null)
+        {
+            coolcombo.destroy();
+        }
+
+        if (PlayState.instance.isBotPlayMode)
+        {
+            return;
+        }
+        hashitnote = false;
+        playedcombo = false;
+        holdnotestart = 0;
+        holdnoteend = 0;
+        holdnoteendtime = 0;
+        combo = 0;
+        notehittime = 0;
+        comtostring = "";
+
+        comboGroup = new FlxTypedGroup();
+        comboGroup.cameras = [PlayState.instance.camHUD];
+
+        PlayState.instance.add(comboGroup);
+
+        if (FlxG.save.data.comboswoosh)
+        {
+            loadCoolCombo();
+        }
+    }
+
+    function checkSustain()
+    {
+        //Rewrote the sutain note stuff
+        if (event.note.noteData.getStepLength() > 0 && event.note.noteData.getMustHitNote())
+        {
+            holdnotestart = event.note.noteData.getStepTime();
+            holdnoteend = FlxMath.roundDecimal(event.note.noteData.getStepLength());
+            holdnoteendtime = Conductor.instance.currentStep + holdnoteend + 4;
+        }
+        else
+        {
+            holdnotestart = 0;
+            holdnoteend = 0;
+            holdnoteendtime = 0;
+        }
+    }
+}
