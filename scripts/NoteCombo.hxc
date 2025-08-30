@@ -91,6 +91,10 @@ class NoteCombo extends Module {
     override function onStateChangeEnd(event)
     {
         super.onStateChangeEnd(event);
+        if (PlayState.instance != null)
+        {
+            return;
+        }
         var comboSwoosh = new ComboSwoosh();
         event.targetState.add(comboSwoosh);
     }
@@ -233,7 +237,7 @@ class NoteCombo extends Module {
 
         if (FlxG.save.data.comboswoosh)
         {
-            comboSwoosh = new ComboSwoosh(30,300);
+            comboSwoosh = new ComboSwoosh(400,300); //30,300
             // comboSwoosh.offset.y = -300;
             // comboSwoosh.updateHitbox();
             // comboSwoosh.numberGroup.offset.y = -300;

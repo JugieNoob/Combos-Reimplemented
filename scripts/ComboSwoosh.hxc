@@ -16,7 +16,7 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
     // Width of first frame - width of orange and yellow frame.
     var coolComboOffset = 859 - 560;
 
-    var comboScale = 0.8;
+    var comboScale = 1;
 
     public var numberGroup:FlxTypedSpriteGroup;
 
@@ -24,12 +24,10 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
     {
         super(x,y);
         coolCombo = new FunkinSprite(-coolComboOffset, 0);
-        // 30, 300
         coolCombo.loadSparrow("noteCombo");
         coolCombo.animation.addByPrefix("combo", "NOTE COMBO animation instance", 24, false);
         coolCombo.scale.set(comboScale, comboScale);
 
-        // coolCombo.visible = false;
         numberGroup = new FlxTypedSpriteGroup();
         numberGroup.setPosition(coolCombo.x + coolComboOffset + (coolCombo.width / 4), coolCombo.y);
         numberGroup.y -= (comboScale - 1) * 75;
