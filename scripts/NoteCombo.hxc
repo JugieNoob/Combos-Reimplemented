@@ -26,7 +26,7 @@ class NoteCombo extends Module {
     var comboSwoosh:ComboSwoosh;
 
     function new (){
-        super("Combo Swoosh");
+        super("Note Combo");
         
         if (FlxG.save.data.cachestuff)
         {
@@ -91,7 +91,7 @@ class NoteCombo extends Module {
     override function onStateChangeEnd(event)
     {
         super.onStateChangeEnd(event);
-        var comboSwoosh = new ComboSwoosh(0,0);
+        var comboSwoosh = new ComboSwoosh();
         event.targetState.add(comboSwoosh);
     }
 
@@ -233,7 +233,12 @@ class NoteCombo extends Module {
 
         if (FlxG.save.data.comboswoosh)
         {
-            comboSwoosh = new ComboSwoosh(30, 300);
+            comboSwoosh = new ComboSwoosh(30,300);
+            // comboSwoosh.offset.y = -300;
+            // comboSwoosh.updateHitbox();
+            // comboSwoosh.numberGroup.offset.y = -300;
+            // comboSwoosh.coolCombo.setPosition(30,300);
+            // comboSwoosh.numberGroup.offset.y = -300;
             comboSwoosh.camera = PlayState.instance.camHUD;
             PlayState.instance.add(comboSwoosh);
         }
