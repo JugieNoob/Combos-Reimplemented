@@ -8,7 +8,7 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
 
     public var coolCombo:FunkinSprite;
 
-    var testCombo = 90;
+    var testCombo = 1000;
 
     // Offsets for the coolNumbers, each index represents a number.
     var numberOffset = [0,40];
@@ -16,7 +16,7 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
     // Width of first frame - width of orange and yellow frame.
     var coolComboOffset = 859 - 560;
 
-    var comboScale = 0.5;
+    var comboScale = 1;
 
     public var numberGroup:FlxTypedSpriteGroup;
 
@@ -24,13 +24,14 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
     {
         super(x,y);
         coolCombo = new FunkinSprite(-coolComboOffset, 0);
-        numberGroup = new FlxTypedSpriteGroup();
         // 30, 300
         coolCombo.loadSparrow("noteCombo");
         coolCombo.animation.addByPrefix("combo", "NOTE COMBO animation instance", 24, false);
         coolCombo.scale.set(comboScale, comboScale);
 
         // coolCombo.visible = false;
+        numberGroup = new FlxTypedSpriteGroup();
+        numberGroup.setPosition(coolCombo.x + coolComboOffset + (coolCombo.width / 4), coolCombo.y);
 
         add(coolCombo);
         add(numberGroup);
@@ -79,13 +80,31 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
             //  + numberOffset[comboToString.charAt(i)]
             if (curNum == comboToString.length - 1)
             {
-                coolNumber.setPosition((coolCombo.width / 4) - coolNumber.width + 40, -((comboScale - 1) * 70));
+                // coolNumber.setPosition((coolCombo.width / 4) - coolNumber.width + 40, (35 * i));
+                // coolNumber.setPosition((coolCombo.width / 4), 0);
+                // numberGroup.setPosition(coolCombo.x + coolComboOffset + (coolCombo.width / 4), coolCombo.y);
+                //+ ((coolCombo.width / 4) - coolNumber.width) + 40
+
+                coolNumber.x -= coolNumber.width - 40;
+                // coolNumber.setPosition(((coolCombo.width / 4) - coolNumber.width + 40) + ((comboScale - 1) / 100), -((comboScale - 1) * 70));
             }
             else
             {
                 // coolNumber.setPosition((numberGroup.members[i - 1].x) - (coolNumber.width / 1.35) - (numberGroup.members[i - 1].width / 10), (35 * i));
-                coolNumber.setPosition((numberGroup.members[i - 1].x + 40) - (coolNumber.width + x), (numberGroup.members[i - 1].y - numberGroup.members[i - 1].height) +  (45 * i));
+                // coolNumber.setPosition(((coolCombo.width / 4) - (coolNumber.width + (numberGroup.members[i - 1].width / 1.75))), (30 * i));
+                // coolNumber.setPosition((numberGroup.members[i - 1].x - (coolCombo.width / 4)), 0);
+                //- (numberGroup.members[i - 1].width)
+                //(35 * i)
+                // - (numberGroup.members[i - 1].width + coolNumber.width)
+                //+ 40) - (coolNumber.width + x)
+                // coolNumber.x = numberGroup.x - numberGroup.members[i - 1].x;
+                coolNumber.x -= (numberGroup.x - numberGroup.members[i - 1].x) + coolNumber.width;
+                coolNumber.x += 30;
+                coolNumber.y += 35 * i;
+
             }
+            numberGroup.add(coolNumber);
+
 
             // coolNumber.x -= (coolNumber.width) * (comboToString.length-(i + 1));
             // coolNumber.x += numberOffset[comboToString.charAt(i)];
@@ -96,7 +115,6 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
             //     //((-50 - (coolNumber.width / 2)) * (comboToString.length - i)) + 
             // }
             // trace("" + (comboToString.length - i));
-            numberGroup.add(coolNumber);
 
             coolNumber.animation.finishCallback = function(combo)
             {
