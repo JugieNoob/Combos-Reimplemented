@@ -8,7 +8,7 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
 
     public var coolCombo:FunkinSprite;
 
-    var testCombo = 1000;
+    var testCombo = 50;
 
     // Offsets for the coolNumbers, each index represents a number.
     var numberOffset = [0,40];
@@ -70,16 +70,18 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
             coolNumber.scale.set(comboScale, comboScale);
 
 
-            // Manual offset because it looks horrible
-            if (comboToString.charAt(curNum) == "5")
-            {
-                coolNumber.offset.set(10, 20);
-            }
+        
 
             // coolNumber.setPosition(((-50 - (coolNumber.width / 2)) * (comboToString.length - i)) + 575, (35 * (comboToString.length - i)) - 35); //35
             //  + numberOffset[comboToString.charAt(i)]
+            // Manual offset because it looks horrible
+            if (comboToString.charAt(curNum) == "5")
+            {
+                coolNumber.offset.set(5, 10);
+            }
             if (curNum == comboToString.length - 1)
             {
+             
                 // coolNumber.setPosition((coolCombo.width / 4) - coolNumber.width + 40, (35 * i));
                 // coolNumber.setPosition((coolCombo.width / 4), 0);
                 // numberGroup.setPosition(coolCombo.x + coolComboOffset + (coolCombo.width / 4), coolCombo.y);
