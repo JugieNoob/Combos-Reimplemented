@@ -45,7 +45,7 @@ class ComboPopup extends Module {
     {
         var combospr = new FunkinSprite(100, 100);
 
-        if (PlayState.instance.playerStrumline.noteStyle.id == 'pixel')
+        if (PlayState.instance.playerStrumline.noteStyle.isHoldNotePixel())
             {
                 combospr.loadTexture("combo-pixel");
                 combospr.scale.set(4, 4);
