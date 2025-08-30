@@ -8,7 +8,7 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
 
     public var coolCombo:FunkinSprite;
 
-    var testCombo = 50;
+    var testCombo = 0;
 
     // Offsets for the coolNumbers, each index represents a number.
     var numberOffset = [0,40];
@@ -16,7 +16,7 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
     // Width of first frame - width of orange and yellow frame.
     var coolComboOffset = 859 - 560;
 
-    var comboScale = 1;
+    var comboScale = 1.5;
 
     public var numberGroup:FlxTypedSpriteGroup;
 
@@ -32,6 +32,8 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
         // coolCombo.visible = false;
         numberGroup = new FlxTypedSpriteGroup();
         numberGroup.setPosition(coolCombo.x + coolComboOffset + (coolCombo.width / 4), coolCombo.y);
+        numberGroup.y -= (comboScale - 1) * 75;
+        numberGroup.x -= (comboScale - 1) * 20;
 
         add(coolCombo);
         add(numberGroup);
@@ -88,6 +90,12 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
                 //+ ((coolCombo.width / 4) - coolNumber.width) + 40
 
                 coolNumber.x -= coolNumber.width - 40;
+                // if (comboScale < 1)
+                // {
+                //     coolNumber.x -= (comboScale / 10);
+                // }
+                // 
+                
                 // coolNumber.setPosition(((coolCombo.width / 4) - coolNumber.width + 40) + ((comboScale - 1) / 100), -((comboScale - 1) * 70));
             }
             else
@@ -101,6 +109,7 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
                 //+ 40) - (coolNumber.width + x)
                 // coolNumber.x = numberGroup.x - numberGroup.members[i - 1].x;
                 coolNumber.x -= (numberGroup.x - numberGroup.members[i - 1].x) + coolNumber.width;
+                // coolNumber.x *= comboScale;
                 coolNumber.x += 30;
                 coolNumber.y += 35 * i;
 
