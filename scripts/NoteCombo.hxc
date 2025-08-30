@@ -243,7 +243,14 @@ class NoteCombo extends Module {
             // comboSwoosh.numberGroup.offset.y = -300;
             // comboSwoosh.coolCombo.setPosition(30,300);
             // comboSwoosh.numberGroup.offset.y = -300;
-            comboSwoosh.camera = PlayState.instance.camHUD;
+            // comboSwoosh.camera = PlayState.instance.camHUD;
+
+            if (PlayState.instance.currentStage.getGirlfriend() != null)
+            {
+                comboSwoosh.camera = PlayState.instance.camGame;
+                comboSwoosh.setPosition(PlayState.instance.currentStage.getGirlfriend().x, PlayState.instance.currentStage.getGirlfriend().y + (PlayState.instance.currentStage.getGirlfriend().height / 2));//250
+            }
+           
             PlayState.instance.add(comboSwoosh);
         }
     }
