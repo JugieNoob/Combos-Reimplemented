@@ -16,7 +16,7 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
     // Width of first frame - width of orange and yellow frame.
     var coolComboOffset = 859 - 560;
 
-    var comboScale = 0.5;
+    var comboScale = 0.8;
 
     public var numberGroup:FlxTypedSpriteGroup;
 
@@ -112,7 +112,8 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
                 // coolNumber.x *= comboScale;
                 coolNumber.x -= (comboScale - 1) * (numberGroup.members[i - 1].width - 40);
                 coolNumber.x += 30;
-                coolNumber.y += 35 * i;
+                // coolNumber.y += (comboScale - 1) * 10;
+                coolNumber.y += (35 * i) * comboScale;
 
             }
             numberGroup.add(coolNumber);
