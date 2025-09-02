@@ -10,7 +10,6 @@ import funkin.FunkinMemory;
 
 class ComboPopup extends Module {
 	var fadeEase;
-	var _data;
 	function new() {
 		super("Combo Popup", 10, {state: PlayState});
 		if (FlxG.save.data.cachestuff) {
@@ -23,7 +22,6 @@ class ComboPopup extends Module {
 		super.onCountdownStart(event);
 		// PlayState.instance.comboPopUps.camera = PlayState.instance.camGame;
 		fadeEase = PlayState.instance.comboPopUps.noteStyle.isJudgementSpritePixel("sick") ? EaseUtil.stepped(2) : null;
-		_data = PlayState.instance.playerStrumline.noteStyle._data;
 	}
 
 	override function onUpdate(event) {
@@ -55,15 +53,15 @@ class ComboPopup extends Module {
 
 		if (PlayState.instance.playerStrumline.noteStyle.isHoldNotePixel()) {
 			comboSpr.loadTexture("combo-pixel");
-			comboSpr.scale.set(_data.assets.judgementSick?.scale ?? 4.0, _data.assets.judgementSick?.scale ?? 4.0);
+			comboSpr.scale.set(4.0, 4.0);
 			comboSpr.updateHitbox();
 			comboSpr.antialiasing = false;
 		} else {
 			comboSpr.loadTexture("combo");
-			comboSpr.scale.set(_data.assets.judgementSick?.scale ?? 0.6, _data.assets.judgementSick?.scale ?? 0.6);
+			comboSpr.scale.set(0.6, 0.6);
 			comboSpr.updateHitbox();
 		}
-        comboSpr.setPosition((FlxG.width * 0.507) + PlayState.instance.comboPopUps.offsets[0] - 40, (FlxG.camera.height * 0.44) + PlayState.instance.comboPopUps.offsets[1] - 10);
+        comboSpr.setPosition((FlxG.width * 0.507) + PlayState.instance.comboPopUps.offsets[0] - 50, (FlxG.camera.height * 0.44) + PlayState.instance.comboPopUps.offsets[1] - 10);
 
 		PlayState.instance.comboPopUps.add(comboSpr);
 
