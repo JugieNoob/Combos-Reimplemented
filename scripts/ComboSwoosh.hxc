@@ -14,7 +14,7 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
     var numberOffset = [0,40];
 
     // Width of first frame - width of orange and yellow frame.
-    var coolComboOffset = 859 - 560;
+    public var coolComboOffset = 859 - 560;
 
     var comboScale = 1;
 

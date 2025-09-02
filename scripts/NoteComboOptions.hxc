@@ -38,6 +38,11 @@ class NoteComboOptions extends Module {
 			Save.instance.modOptions["ComboSwooshCamera"] = "World";
 		}
 
+		if (Save.instance.modOptions["ComboSwooshPosition"] == null)
+		{
+			Save.instance.modOptions["ComboSwooshPosition"] = "Middle";
+		}
+
 	}
 
 	function onStateChangeEnd(event) {
@@ -80,9 +85,14 @@ class NoteComboOptions extends Module {
 			}, FlxG.save.data.cachestuff);
 
 		
-		preferences.createPrefItemEnum("Combo Swoosh Camera", "Set which camera the Combo Swoosh should appear on.", ["HUD" => "HUD", "World" => "HUD"], function(value:String){
+		preferences.createPrefItemEnum("Combo Swoosh Camera", "Set which camera the Combo Swoosh should appear on.", ["HUD" => "HUD", "World" => "World"], function(value:String){
 			Save.instance.modOptions["ComboSwooshCamera"] = value;
 			Save.instance.flush();
 		}, Save.instance.modOptions["ComboSwooshCamera"]);
+
+		preferences.createPrefItemEnum("Combo Swoosh Position", "Set which side of the screen the Combo Swoosh should appear on when using the HUD Camera.", ["Left" => "Left","Middle" => "Middle","Right" => "Right",], function(value:String){
+			Save.instance.modOptions["ComboSwooshPosition"] = value;
+			Save.instance.flush();
+		}, Save.instance.modOptions["ComboSwooshPosition"]);
 	}
 }

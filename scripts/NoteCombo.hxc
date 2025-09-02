@@ -239,7 +239,7 @@ class NoteCombo extends Module {
 
         if (FlxG.save.data.comboswoosh)
         {
-            comboSwoosh = new ComboSwoosh(400,300); //30,300
+            comboSwoosh = new ComboSwoosh(); //30,300
             // comboSwoosh.offset.y = -300;
             // comboSwoosh.updateHitbox();
             // comboSwoosh.numberGroup.offset.y = -300;
@@ -250,6 +250,15 @@ class NoteCombo extends Module {
             {
                 case "HUD":
                     comboSwoosh.camera = PlayState.instance.camHUD;
+                    switch (Save.instance.modOptions["ComboSwooshPosition"])
+                    {
+                        case "Left":
+                            comboSwoosh.setPosition(100,300);
+                        case "Middle":
+                            comboSwoosh.setPosition(400,300);
+                        case "Right":
+                            comboSwoosh.setPosition((FlxG.width - (comboSwoosh.coolCombo.width - comboSwoosh.coolComboOffset)) + 275,300);
+                    }
                 case "World":     
                     if (PlayState.instance.currentStage != null)
                     {
