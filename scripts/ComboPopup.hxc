@@ -18,6 +18,10 @@ class ComboPopup extends Module {
 
     }
 
+    override function onCountdownStart(event)
+    {
+        super.onCountdownStart(event);
+    }
 
     override function onNoteHit(event)
     {

@@ -9,6 +9,7 @@ import funkin.audio.FunkinSound;
 import flixel.text.FlxText;
 import flixel.math.FlxMath;
 import flixel.group.FlxTypedGroup;
+import funkin.save.Save;
 
 class NoteCombo extends Module {
     var combo = 0;
@@ -245,24 +246,32 @@ class NoteCombo extends Module {
             // comboSwoosh.coolCombo.setPosition(30,300);
             // comboSwoosh.numberGroup.offset.y = -300;
 
-            if (PlayState.instance.currentStage != null)
+            switch (Save.instance.modOptions["ComboSwooshCamera"])
             {
-                if (PlayState.instance.currentStage.getGirlfriend() != null)
-                {
-                    comboSwoosh.camera = PlayState.instance.camGame;
-                    comboSwoosh.setPosition(PlayState.instance.currentStage.getGirlfriend().x, PlayState.instance.currentStage.getGirlfriend().y + (PlayState.instance.currentStage.getGirlfriend().height / 2));//250
-                }
-                else
-                {
-                    comboSwoosh.camera = PlayState.instance.camGame;
-                    comboSwoosh.setPosition(PlayState.instance.currentStage.getDad().x, PlayState.instance.currentStage.getDad().y + (PlayState.instance.currentStage.getDad().height / 2));//250
-                }
+                case "HUD":
+                    comboSwoosh.camera = PlayState.instance.camHUD;
+                case "World":     
+                    if (PlayState.instance.currentStage != null)
+                    {
+                        // Check if a girlfriend is available on the current stage, if it isn't go try using the opponent.
+                        if (PlayState.instance.currentStage.getGirlfriend() != null)
+                        {
+                            comboSwoosh.camera = PlayState.instance.camGame;
+                            comboSwoosh.setPosition(PlayState.instance.currentStage.getGirlfriend().x, PlayState.instance.currentStage.getGirlfriend().y + (PlayState.instance.currentStage.getGirlfriend().height / 2));//250
+                        }
+                        else
+                        {
+                            comboSwoosh.camera = PlayState.instance.camGame;
+                            comboSwoosh.setPosition(PlayState.instance.currentStage.getDad().x, PlayState.instance.currentStage.getDad().y + (PlayState.instance.currentStage.getDad().height / 2));//250
+                        }
+                    }
+                    else
+                    {
+                        // Force the Combo Swoosh to use the HUD Camera if a stage is not found.
+                        comboSwoosh.camera = PlayState.instance.camHUD;
+                    }  
             }
-            else
-            {
-                // Force the Combo Swoosh to use the HUD Camera if a stage is not found.
-                comboSwoosh.camera = PlayState.instance.camHUD;
-            }
+           
 
     
             

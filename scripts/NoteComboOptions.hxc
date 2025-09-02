@@ -3,88 +3,86 @@ import funkin.ui.options.PreferencesMenu;
 import funkin.ui.options.OptionsState;
 import flixel.FlxG;
 import Std;
-
+import funkin.save.Save;
 
 class NoteComboOptions extends Module {
 
-    var pagename = OptionsState.PageName;
+	function new() {
+		super("Note Combo Options", 20, {state: OptionsState});
 
-    function new (){
-        super("Note Combo Options", 20);
-
-        if (FlxG.save.data.combopopup == null)
-        {
-            FlxG.save.data.combopopup = true;
-        }
-        if (FlxG.save.data.comboswoosh == null)
-        {
-            FlxG.save.data.comboswoosh = true;
-        }
-        if (FlxG.save.data.combosound == null)
-        {
-            FlxG.save.data.combosound = true;
-        }
-        if (FlxG.save.data.debugtext == null)
-        {
-            FlxG.save.data.debugtext = false;
-        }
-        if (FlxG.save.data.cachestuff == null)
-        {
-            FlxG.save.data.cachestuff = true;
-        }
-        if (FlxG.save.data.swooshthreshold == null)
-        {
-            FlxG.save.data.swooshthreshold = 0;
-        }
-        if (FlxG.save.data.reversenumanim == null)
-        {
-            FlxG.save.data.reversenumanim = false;
-        }
-    }
-
-    function onStateChangeEnd(event)
-    {
-        super.onStateChangeEnd(event);
+		if (FlxG.save.data.combopopup == null) {
+			FlxG.save.data.combopopup = true;
+		}
+		if (FlxG.save.data.comboswoosh == null) {
+			FlxG.save.data.comboswoosh = true;
+		}
+		if (FlxG.save.data.combosound == null) {
+			FlxG.save.data.combosound = true;
+		}
+		if (FlxG.save.data.debugtext == null) {
+			FlxG.save.data.debugtext = false;
+		}
+		if (FlxG.save.data.cachestuff == null) {
+			FlxG.save.data.cachestuff = true;
+		}
+		if (FlxG.save.data.swooshthreshold == null) {
+			FlxG.save.data.swooshthreshold = 0;
+		}
+		if (FlxG.save.data.reversenumanim == null) {
+			FlxG.save.data.reversenumanim = false;
+		}
 
 
-        if (Std.isOfType(event.targetState, OptionsState))
-            {
-        
-                    var preferences = event.targetState.optionsCodex.pages.get("preferences");
-    
-    
-                    preferences.createPrefItemCheckbox('Combo Popup', 'Toggles the combo popup when you hit more than 10 or more notes in a row.', function(value:Bool):Void {
-                    FlxG.save.data.combopopup = value; 
-                    FlxG.save.flush();
-                }
-                    , FlxG.save.data.combopopup);
-        
-                    preferences.createPrefItemCheckbox('Combo Swoosh', 'Toggles the combo swoosh that appears after each section in a song.', function(value:Bool):Void {
-                    FlxG.save.data.comboswoosh = value;
-                    FlxG.save.flush();
-                }, FlxG.save.data.comboswoosh);
-                    preferences.createPrefItemCheckbox('Combo Swoosh Sound', "Toggles the note combo sound when the combo swoosh appears.", function(value:Bool):Void {
-                    FlxG.save.data.combosound = value; 
-                    FlxG.save.flush();
-                }, FlxG.save.data.combosound);
-                    
-                    preferences.createPrefItemCheckbox('Reverse Swoosh Number Animation', "Reverses the combo swoosh's numbers to make the animation more accurate to the one shown in the development stream.", function(value:Bool):Void {
-                    FlxG.save.data.reversenumanim = value;
-                    FlxG.save.flush();
-                }, FlxG.save.data.reversenumanim);
-        
-                    preferences.createPrefItemNumber('Combo Swoosh Threshold', 'The minimum amount of combo needed for the Combo Swoosh to activate.', function(value:Int){
-                        FlxG.save.data.swooshthreshold = value;
-                        FlxG.save.flush();
-                }, null, FlxG.save.data.swooshthreshold, 0, 300, 1, 0);
-    
-           
-                    preferences.createPrefItemCheckbox('Cache Combo Assets', 'Toggles caching the combo assets, if enabled, it may help with the game stuttering when loading the assets. (requires reloading the game if toggled)', function(value:Bool):Void {
-                        FlxG.save.data.cachestuff = value;
-                        FlxG.save.flush();
-                }, FlxG.save.data.cachestuff);
-            }
-        
-      
-    }
+		if (Save.instance.modOptions["ComboSwooshCamera"] == null)
+		{
+			Save.instance.modOptions["ComboSwooshCamera"] = "World";
+		}
+
+	}
+
+	function onStateChangeEnd(event) {
+		super.onStateChangeEnd(event);
+
+		var preferences = event.targetState.optionsCodex.pages.get("preferences");
+
+		preferences.createPrefItemCheckbox('Combo Popup', 'Toggles the combo popup when you hit more than 10 or more notes in a row.',
+			function(value:Bool):Void {
+				FlxG.save.data.combopopup = value;
+				FlxG.save.flush();
+			}, FlxG.save.data.combopopup);
+
+		preferences.createPrefItemCheckbox('Combo Swoosh', 'Toggles the combo swoosh that appears after each section in a song.', function(value:Bool):Void {
+			FlxG.save.data.comboswoosh = value;
+			FlxG.save.flush();
+		}, FlxG.save.data.comboswoosh);
+		preferences.createPrefItemCheckbox('Combo Swoosh Sound', "Toggles the note combo sound when the combo swoosh appears.", function(value:Bool):Void {
+			FlxG.save.data.combosound = value;
+			FlxG.save.flush();
+		}, FlxG.save.data.combosound);
+
+		preferences.createPrefItemCheckbox('Reverse Swoosh Number Animation',
+			"Reverses the combo swoosh's numbers to make the animation more accurate to the one shown in the development stream.", function(value:Bool):Void {
+				FlxG.save.data.reversenumanim = value;
+				FlxG.save.flush();
+		}, FlxG.save.data.reversenumanim);
+
+		preferences.createPrefItemNumber('Combo Swoosh Threshold', 'The minimum amount of combo needed for the Combo Swoosh to activate.',
+			function(value:Int) {
+				FlxG.save.data.swooshthreshold = value;
+				FlxG.save.flush();
+			}, null, FlxG.save.data.swooshthreshold, 0, 300, 1, 0);
+
+		preferences.createPrefItemCheckbox('Cache Combo Assets',
+			'Toggles caching the combo assets, if enabled, it may help with the game stuttering when loading the assets. (requires reloading the game if toggled)',
+			function(value:Bool):Void {
+				FlxG.save.data.cachestuff = value;
+				FlxG.save.flush();
+			}, FlxG.save.data.cachestuff);
+
+		
+		preferences.createPrefItemEnum("Combo Swoosh Camera", "Set which camera the Combo Swoosh should appear on.", ["HUD" => "HUD", "World" => "HUD"], function(value:String){
+			Save.instance.modOptions["ComboSwooshCamera"] = value;
+			Save.instance.flush();
+		}, Save.instance.modOptions["ComboSwooshCamera"]);
+	}
 }
