@@ -5,84 +5,81 @@ import funkin.Conductor;
 import flixel.FlxG;
 import funkin.Highscore;
 import flixel.tweens.FlxTween;
+import funkin.util.EaseUtil;
+import funkin.FunkinMemory;
 
 class ComboPopup extends Module {
+	var fadeEase;
+	var _data;
+	function new() {
+		super("Combo Popup", 10, {state: PlayState});
+		if (FlxG.save.data.cachestuff) {
+			FunkinMemory.cacheTexture("combo.png");
+			FunkinMemory.cacheTexture("combo-pixel.png");
+		}
+	}
 
-    function new (){
-        super("Combo Popup");
-        if (FlxG.save.data.cachestuff)
-        {
-            FunkinSprite.cacheTexture("combo.png");
-            FunkinSprite.cacheTexture("combo-pixel.png");
-        }
+	override function onCountdownStart(event) {
+		super.onCountdownStart(event);
+		// PlayState.instance.comboPopUps.camera = PlayState.instance.camGame;
+		fadeEase = PlayState.instance.comboPopUps.noteStyle.isJudgementSpritePixel("sick") ? EaseUtil.stepped(2) : null;
+		_data = PlayState.instance.playerStrumline.noteStyle._data;
+	}
 
-    }
+	override function onUpdate(event) {
+		super.onUpdate(event);
+		// if (PlayState.instance.comboPopUps != null)
+		// {
+		//     for (popup in PlayState.instance.comboPopUps)
+		//     {
+		//         popup.camera = PlayState.instance.camGame;
+		//         popup.scrollFactor.set();
+		//     }
+		// }
+	}
 
-    override function onCountdownStart(event)
-    {
-        super.onCountdownStart(event);
-    }
+	override function onNoteHit(event) {
+		super.onNoteHit(event);
 
-    override function onNoteHit(event)
-    {
-        super.onNoteHit(event);
+		if (FlxG.save.data.combopopup) {
+			if (Highscore.tallies.combo >= 9 && event.note.noteData.getMustHitNote()) {
+				if (PlayState.instance.comboPopUps.visible && PlayState.instance.comboPopUps.noteStyle.buildJudgementSprite("good") != null) {
+					showComboSpr();
+				}
+			}
+		}
+	}
 
-        if (FlxG.save.data.combopopup)
-        {
-            if (PlayState.instance != null)
-            {
-                if (Highscore.tallies.combo >= 9 && event.note.noteData.getMustHitNote())
-                {
-                    if (PlayState.instance.comboPopUps.visible && PlayState.instance.comboPopUps.noteStyle.buildJudgementSprite("good") != null)
-                    {
-                        showcombospr();
-                    }
+	function showComboSpr() {
+		var comboSpr = new FunkinSprite(100, 100);
 
-                }
-            }
+		if (PlayState.instance.playerStrumline.noteStyle.isHoldNotePixel()) {
+			comboSpr.loadTexture("combo-pixel");
+			comboSpr.scale.set(_data.assets.judgementSick?.scale ?? 4.0, _data.assets.judgementSick?.scale ?? 4.0);
+			comboSpr.updateHitbox();
+			comboSpr.antialiasing = false;
+		} else {
+			comboSpr.loadTexture("combo");
+			comboSpr.scale.set(_data.assets.judgementSick?.scale ?? 0.6, _data.assets.judgementSick?.scale ?? 0.6);
+			comboSpr.updateHitbox();
+		}
+        comboSpr.setPosition((FlxG.width * 0.507) + PlayState.instance.comboPopUps.offsets[0] - 40, (FlxG.camera.height * 0.44) + PlayState.instance.comboPopUps.offsets[1] - 10);
 
-        }
+		PlayState.instance.comboPopUps.add(comboSpr);
 
-    }
+		// Stuff taken from FNF Source Code
+		comboSpr.zIndex = 1000;
+		comboSpr.acceleration.y = 550;
+		comboSpr.velocity.y -= FlxG.random.int(140, 175);
+		comboSpr.velocity.x -= FlxG.random.int(0, 10);
 
-    function showcombospr()
-    {
-        var combospr = new FunkinSprite(100, 100);
-
-        if (PlayState.instance.playerStrumline.noteStyle.isHoldNotePixel())
-            {
-                combospr.loadTexture("combo-pixel");
-                combospr.scale.set(4, 4);
-                combospr.updateHitbox();
-                combospr.antialiasing = false;
-            }
-            else
-            {
-                combospr.loadTexture("combo");
-                combospr.scale.set(0.6, 0.6);
-                combospr.updateHitbox();
-            }
-
-            combospr.setPosition((FlxG.width * 0.507) + PlayState.instance.comboPopUps.offsets[0] - 60, (FlxG.camera.height * 0.44) + PlayState.instance.comboPopUps.offsets[1]);
-
-        PlayState.instance.comboPopUps.add(combospr);
-
-        //Stuff taken from FNF Source Code
-        combospr.scrollFactor.set(0.2, 0.2);
-        combospr.zIndex = 1000;
-        combospr.acceleration.y = 600;
-        combospr.velocity.y -= 150;
-        combospr.velocity.x += FlxG.random.int(1, 10);
-
-        combospr.cameras = [PlayState.instance.camHUD];
-
-        FlxTween.tween(combospr, {alpha: 0}, 0.2,
-      {
-        onComplete: function(tween:FlxTween) {
-          combospr.destroy();
-        },
-        startDelay: Conductor.instance.beatLengthMs * 0.001
-      });
-
-    }
+		FlxTween.tween(comboSpr, {alpha: 0}, 0.2, {
+			onComplete: function(tween:FlxTween) {
+				PlayState.instance.comboPopUps.remove(comboSpr, true);
+				comboSpr.destroy();
+			},
+			startDelay: Conductor.instance.beatLengthMs * 0.001,
+			ease: fadeEase
+		});
+	}
 }

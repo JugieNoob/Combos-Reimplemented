@@ -106,7 +106,7 @@ class NoteCombo extends Module {
         {
             // if (PlayState.instance != null)
             // {
-                if (FlxG.save.data.debugtext && debugtext != null)
+            if (FlxG.save.data.debugtext && debugtext != null)
                 {
                     debugtext.text = "Combo: " + combo + "\nSong Position: " + Conductor.instance.songPosition + "\nnotehittime: " + notehittime + "\nholdnoteend: "+ holdnoteend + "\nholdnoteendtime: " + holdnoteendtime +"\ncurrent step: " + Conductor.instance.currentStep + "\nhashitnote: " + hashitnote + "\nscreen width: " + FlxG.width;
                 }
