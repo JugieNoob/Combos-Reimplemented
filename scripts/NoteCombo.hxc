@@ -1,37 +1,33 @@
 import funkin.play.PlayState;
 import funkin.modding.module.Module;
-import funkin.Paths;
-import funkin.graphics.FunkinSprite;
 import funkin.Conductor;
 import flixel.FlxG;
 import funkin.Highscore;
-import funkin.audio.FunkinSound;
-import flixel.text.FlxText;
 import flixel.math.FlxMath;
-import flixel.group.FlxTypedGroup;
 import funkin.save.Save;
+import funkin.FunkinMemory;
+
 
 class NoteCombo extends Module {
-    var combo = 0;
-    var hashitnote = false;
-    var notehittime = 0;
-    var holdnoteend = 0;
-    var coolcombo:FunkinSprite;
-    var holdnoteendtime = 0;
-    var holdnotestart = 0;
-    var comtostring = "";
-    var comboGroup:FlxTypedGroup;
-
     var comboSwoosh:ComboSwoosh;
+    var combo = 0;
+
+    var noteHitTime = 0;
+    var holdNoteStart = 0;
+    var holdNoteEndTime = 0;
+    var holdNoteEnd = 0;
+
+
+
 
     function new (){
         super("Note Combo", 1, {state: PlayState});
         
         if (FlxG.save.data.cachestuff)
         {
-            FlxG.sound.cache(Paths.sound("comboSound"));
-            FunkinSprite.cacheSparrow("noteCombo");
-            FunkinSprite.cacheSparrow("noteComboNumbers");
+            FunkinMemory.cacheSound(Paths.sound("comboSound"));
+            FunkinMemory.cacheTexture("noteCombo");
+            FunkinMemory.cacheTexture("noteComboNumbers");
         }
     }
 
@@ -40,22 +36,18 @@ class NoteCombo extends Module {
     {
         super.onNoteHit(event);
 
-        // if (PlayState.instance != null)
-        // {
-            if (event.note.noteData.getMustHitNote())
+        if (event.note.noteData.getMustHitNote())
+        {
+            if (FlxG.save.data.comboswoosh)
             {
-                if (FlxG.save.data.comboswoosh)
-                {
-                    //notehittime is now calculated by using steps instead of ms
-                    notehittime = event.note.noteData.getStepTime() + (Conductor.instance.get_bpm() / 16);
-                    combo++;
-                    hashitnote = true;
-                    checkSustain();
-                }
-
+                //noteHitTime is now calculated by using steps instead of ms
+                noteHitTime = event.note.noteData.getStepTime() + (Conductor.instance.get_bpm() / 16);
+                combo++;
+                checkSustain();
             }
+        }
 
-        // }
+     
 
 
 
@@ -68,50 +60,29 @@ class NoteCombo extends Module {
 
     }
 
-    override function onCountdownEnd(event)
-    {
-        super.onCountdownEnd(event);
-
-        // Move the combo swoosh to the side on mobile
-        // if (FlxG.width > 1280)
-        // {
-        //     coolcombo.setPosition(-235, 255);
-        // }
-        // else if (PlayState.instance.playerStrumline.x == (FlxG.width / 2 - PlayState.instance.playerStrumline.width / 2))
-        // {
-        //     coolcombo.setPosition(-235, 325);
-        // }
-        // else
-        // {
-        //     coolcombo.setPosition(30, 300);
-        // }
-    }
-
     override function onUpdate(event)
     {
-        // if (PlayState.instance != null)
-        // {
-        if (FlxG.save.data.comboswoosh)
+        if (!FlxG.save.data.comboswoosh)
         {
-            if (Highscore.tallies.combo == 0)
+            return;
+        }
+        
+        if (Highscore.tallies.combo == 0)
+        {
+            combo = 0;
+        }
+        else if (combo >= FlxG.save.data.swooshthreshold)
+        {
+            if (Conductor.instance.currentStep >= (noteHitTime + holdNoteEnd))
             {
-                combo = 0;
-            }
-            else if (combo >= FlxG.save.data.swooshthreshold)
-            {
-                if (Conductor.instance.currentStep >= (notehittime + holdnoteend) && hashitnote)
+                if (!PlayState.instance.isBotPlayMode)
                 {
-                    if (!PlayState.instance.isBotPlayMode)
-                    {
-                        comboSwoosh.playCombo(combo);
-                        combo = 0;
-                    }
+                    comboSwoosh.playCombo(combo);
+                    combo = 0;
                 }
             }
-           
         }
-            
-        // }
+           
         super.onUpdate(event);
       
      
@@ -119,31 +90,22 @@ class NoteCombo extends Module {
 
     function initVariables()
     {
-        // if (coolcombo != null)
-        // {
-        //     coolcombo.destroy();
-        // }
-
         if (PlayState.instance.isBotPlayMode)
         {
             return;
         }
-        hashitnote = false;
-        holdnotestart = 0;
-        holdnoteend = 0;
-        holdnoteendtime = 0;
+        holdNoteStart = 0;
+        holdNoteEnd = 0;
+        holdNoteEndTime = 0;
         combo = 0;
-        notehittime = 0;
-        comtostring = "";
-
-        comboGroup = new FlxTypedGroup();
-        comboGroup.cameras = [PlayState.instance.camHUD];
-
-        PlayState.instance.add(comboGroup);
+        noteHitTime = 0;
 
         if (FlxG.save.data.comboswoosh)
         {
-            comboSwoosh = new ComboSwoosh(); //30,300
+            if (comboSwoosh == null)
+            {
+                comboSwoosh = new ComboSwoosh(); //30,300
+            }
 
 
             switch (Save.instance.modOptions["ComboSwooshCamera"])
@@ -195,15 +157,15 @@ class NoteCombo extends Module {
         //Rewrote the sutain note stuff
         if (event.note.noteData.getStepLength() > 0 && event.note.noteData.getMustHitNote())
         {
-            holdnotestart = event.note.noteData.getStepTime();
-            holdnoteend = FlxMath.roundDecimal(event.note.noteData.getStepLength());
-            holdnoteendtime = Conductor.instance.currentStep + holdnoteend + 4;
+            holdNoteStart = event.note.noteData.getStepTime();
+            holdNoteEnd = FlxMath.roundDecimal(event.note.noteData.getStepLength());
+            holdNoteEndTime = Conductor.instance.currentStep + holdNoteEnd + 4;
         }
         else
         {
-            holdnotestart = 0;
-            holdnoteend = 0;
-            holdnoteendtime = 0;
+            holdNoteStart = 0;
+            holdNoteEnd = 0;
+            holdNoteEndTime = 0;
         }
     }
 }
