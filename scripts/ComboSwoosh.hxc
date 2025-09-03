@@ -2,13 +2,14 @@ import flixel.group.FlxTypedSpriteGroup;
 import funkin.graphics.FunkinSprite;
 import funkin.audio.FunkinSound;
 import flixel.FlxG;
+import funkin.save.Save;
 
 
 class ComboSwoosh extends FlxTypedSpriteGroup {
 
     public var coolCombo:FunkinSprite;
 
-    var testCombo = 1000;
+    var testCombo = 990;
 
     // Offsets for the coolNumbers, each index represents a number.
     var numberOffset = [0,40];
@@ -16,13 +17,16 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
     // Width of first frame - width of orange and yellow frame.
     public var coolComboOffset = 859 - 560;
 
-    var comboScale = 1;
+    public var comboScale = 1;
 
     public var numberGroup:FlxTypedSpriteGroup;
+
+    var originalX = 0;
 
     public function new(x = 300, y = 200)
     {
         super(x,y);
+        
         coolCombo = new FunkinSprite(-coolComboOffset, 0);
         coolCombo.loadSparrow("noteCombo");
         coolCombo.animation.addByPrefix("combo", "NOTE COMBO animation instance", 24, false);
@@ -56,6 +60,12 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
         // combo = 100;
         var comboToString = Std.string(combo);
 
+
+        if (Save.instance.modOptions["ComboSwooshCamera"] == "HUD" && Save.instance.modOptions["ComboSwooshPosition"] == "Left")
+        {
+            x = originalX + ((100 * (comboToString.length - 2)) * comboScale);
+        }
+    
         for (i in 0...comboToString.length)
         {
             var coolNumber = new FunkinSprite();
@@ -114,6 +124,8 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
                 coolNumber.y += (35 * i) * comboScale;
 
             }
+
+       
             numberGroup.add(coolNumber);
 
 
@@ -142,6 +154,13 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
         coolCombo.animation.finishCallback = function(combo)
 		{
 			visible = false;
+            x = originalX;
         }
+    }
+
+    override public function setPosition(x,y)
+    {
+        super.setPosition(x,y);
+        originalX = x;
     }
 }

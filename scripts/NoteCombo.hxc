@@ -90,18 +90,6 @@ class NoteCombo extends Module {
         // }
     }
 
-    override function onStateChangeEnd(event)
-    {
-        super.onStateChangeEnd(event);
-        // if (PlayState.instance != null)
-        // {
-        //     return;
-        // }
-        var comboSwoosh = new ComboSwoosh();
-        event.targetState.add(comboSwoosh);
-    }
-
-
     override function onUpdate(event)
         {
             // if (PlayState.instance != null)
@@ -240,11 +228,7 @@ class NoteCombo extends Module {
         if (FlxG.save.data.comboswoosh)
         {
             comboSwoosh = new ComboSwoosh(); //30,300
-            // comboSwoosh.offset.y = -300;
-            // comboSwoosh.updateHitbox();
-            // comboSwoosh.numberGroup.offset.y = -300;
-            // comboSwoosh.coolCombo.setPosition(30,300);
-            // comboSwoosh.numberGroup.offset.y = -300;
+
 
             switch (Save.instance.modOptions["ComboSwooshCamera"])
             {
@@ -253,11 +237,12 @@ class NoteCombo extends Module {
                     switch (Save.instance.modOptions["ComboSwooshPosition"])
                     {
                         case "Left":
-                            comboSwoosh.setPosition(100,300);
+                            comboSwoosh.setPosition(50 * comboSwoosh.comboScale,300);
                         case "Middle":
                             comboSwoosh.setPosition(400,300);
                         case "Right":
-                            comboSwoosh.setPosition((FlxG.width - (comboSwoosh.coolCombo.width - comboSwoosh.coolComboOffset)) + 275,300);
+                            comboSwoosh.setPosition((FlxG.width - (comboSwoosh.coolCombo.width)) + (300 + comboSwoosh.coolComboOffset) - 50,300);
+                            // comboSwoosh.x += 55 / (1 - comboSwoosh.comboScale);
                     }
                 case "World":     
                     if (PlayState.instance.currentStage != null)
