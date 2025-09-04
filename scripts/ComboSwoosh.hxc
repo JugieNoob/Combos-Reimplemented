@@ -3,6 +3,8 @@ import funkin.graphics.FunkinSprite;
 import funkin.audio.FunkinSound;
 import flixel.FlxG;
 import funkin.save.Save;
+import funkin.util.HapticUtil;
+import funkin.util.Constants;
 
 
 class ComboSwoosh extends FlxTypedSpriteGroup {
@@ -79,11 +81,6 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
             coolNumber.updateHitbox();
             coolNumber.scale.set(comboScale, comboScale);
 
-
-        
-
-            // coolNumber.setPosition(((-50 - (coolNumber.width / 2)) * (comboToString.length - i)) + 575, (35 * (comboToString.length - i)) - 35); //35
-            //  + numberOffset[comboToString.charAt(i)]
             // Manual offset because it looks horrible
             if (comboToString.charAt(curNum) == "5")
             {
@@ -91,53 +88,20 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
             }
             if (curNum == comboToString.length - 1)
             {
-             
-                // coolNumber.setPosition((coolCombo.width / 4) - coolNumber.width + 40, (35 * i));
-                // coolNumber.setPosition((coolCombo.width / 4), 0);
-                // numberGroup.setPosition(coolCombo.x + coolComboOffset + (coolCombo.width / 4), coolCombo.y);
-                //+ ((coolCombo.width / 4) - coolNumber.width) + 40
-
                 coolNumber.x -= coolNumber.width - 40;
-                // if (comboScale < 1)
-                // {
-                //     coolNumber.x -= (comboScale / 10);
-                // }
-                // 
-                
-                // coolNumber.setPosition(((coolCombo.width / 4) - coolNumber.width + 40) + ((comboScale - 1) / 100), -((comboScale - 1) * 70));
             }
             else
             {
-                // coolNumber.setPosition((numberGroup.members[i - 1].x) - (coolNumber.width / 1.35) - (numberGroup.members[i - 1].width / 10), (35 * i));
-                // coolNumber.setPosition(((coolCombo.width / 4) - (coolNumber.width + (numberGroup.members[i - 1].width / 1.75))), (30 * i));
-                // coolNumber.setPosition((numberGroup.members[i - 1].x - (coolCombo.width / 4)), 0);
-                //- (numberGroup.members[i - 1].width)
-                //(35 * i)
-                // - (numberGroup.members[i - 1].width + coolNumber.width)
-                //+ 40) - (coolNumber.width + x)
-                // coolNumber.x = numberGroup.x - numberGroup.members[i - 1].x;
                 coolNumber.x -= (numberGroup.x - numberGroup.members[i - 1].x) + coolNumber.width;
-                // coolNumber.x *= comboScale;
                 coolNumber.x -= (comboScale - 1) * (numberGroup.members[i - 1].width - 40);
                 coolNumber.x += 30;
-                // coolNumber.y += (comboScale - 1) * 10;
+
                 coolNumber.y += (35 * i) * comboScale;
 
             }
 
        
             numberGroup.add(coolNumber);
-
-
-            // coolNumber.x -= (coolNumber.width) * (comboToString.length-(i + 1));
-            // coolNumber.x += numberOffset[comboToString.charAt(i)];
-            // coolNumber.setPosition((coolCombo.x + 610) - (coolNumber.width) -  (100 * (comboToString.length - i)), coolCombo.y);
-            // if (coolCombo != null)
-            // {
-                // coolNumber.setPosition((-coolNumber.width * (comboToString.length - i)) + (coolCombo.x + 568), 0); //35 //coolCombo.y + (35 * (comboToString.length - i)) - 35
-            //     //((-50 - (coolNumber.width / 2)) * (comboToString.length - i)) + 
-            // }
-            // trace("" + (comboToString.length - i));
 
             coolNumber.animation.finishCallback = function(combo)
             {
@@ -148,8 +112,13 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
         {
             FunkinSound.playOnce(Paths.sound("comboSound"));
         }
+
         visible = true;
         coolCombo.animation.play("combo", true);
+        if (FlxG.onMobile)
+        {
+            HapticUtil.vibrate(0.6, 0.6);
+        }
 
         coolCombo.animation.finishCallback = function(combo)
 		{

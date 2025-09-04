@@ -35,7 +35,7 @@ class NoteComboOptions extends Module {
 
 		if (Save.instance.modOptions["ComboSwooshCamera"] == null)
 		{
-			Save.instance.modOptions["ComboSwooshCamera"] = "World";
+			Save.instance.modOptions["ComboSwooshCamera"] = "HUD";
 		}
 
 		if (Save.instance.modOptions["ComboSwooshPosition"] == null)
