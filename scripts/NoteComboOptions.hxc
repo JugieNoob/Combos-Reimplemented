@@ -25,8 +25,10 @@ class NoteComboOptions extends Module {
 		if (FlxG.save.data.cachestuff == null) {
 			FlxG.save.data.cachestuff = true;
 		}
-		if (FlxG.save.data.swooshthreshold == null) {
-			FlxG.save.data.swooshthreshold = 0;
+	
+		if (Save.instance.modOptions["ComboSwooshThreshold"] == null)
+		{
+			Save.instance.modOptions["ComboSwooshThreshold"] = 1;
 		}
 		if (FlxG.save.data.reversenumanim == null) {
 			FlxG.save.data.reversenumanim = false;
@@ -40,7 +42,19 @@ class NoteComboOptions extends Module {
 
 		if (Save.instance.modOptions["ComboSwooshPosition"] == null)
 		{
-			Save.instance.modOptions["ComboSwooshPosition"] = "Middle";
+			if (FlxG.onMobile)
+			{
+				Save.instance.modOptions["ComboSwooshPosition"] = "Left";
+			}
+			else
+			{
+				Save.instance.modOptions["ComboSwooshPosition"] = "Middle";
+			}
+		}
+
+		if (Save.instance.modOptions["ComboSwooshHaptics"] == null)
+		{
+			Save.instance.modOptions["ComboSwooshHaptics"] = true;
 		}
 
 	}
@@ -73,9 +87,9 @@ class NoteComboOptions extends Module {
 
 		preferences.createPrefItemNumber('Combo Swoosh Threshold', 'The minimum amount of combo needed for the Combo Swoosh to activate.',
 			function(value:Int) {
-				FlxG.save.data.swooshthreshold = value;
-				FlxG.save.flush();
-			}, null, FlxG.save.data.swooshthreshold, 0, 300, 1, 0);
+				Save.instance.modOptions["ComboSwooshThreshold"] = value;
+				Save.instance.flush();
+			}, null, Save.instance.modOptions["ComboSwooshThreshold"], 1, 300, 1, 0);
 
 		preferences.createPrefItemCheckbox('Cache Combo Assets',
 			'Toggles caching the combo assets, if enabled, it may help with the game stuttering when loading the assets. (requires reloading the game if toggled)',
@@ -94,5 +108,13 @@ class NoteComboOptions extends Module {
 			Save.instance.modOptions["ComboSwooshPosition"] = value;
 			Save.instance.flush();
 		}, Save.instance.modOptions["ComboSwooshPosition"]);
+
+		if (FlxG.onMobile)
+		{
+			preferences.createPrefItemCheckbox('Combo Swoosh Haptics', 'When enabled, your phone will vibrate when the Combo Swoosh plays', function(value:Bool):Void {
+				Save.instance.modOptions["ComboSwooshHaptics"] = value;
+				Save.instance.flush();
+			}, Save.instance.modOptions["ComboSwooshHaptics"]);			
+		}
 	}
 }
