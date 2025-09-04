@@ -17,9 +17,6 @@ class NoteCombo extends Module {
     var holdNoteEndTime = 0;
     var holdNoteEnd = 0;
 
-
-
-
     function new (){
         super("Note Combo", 1, {state: PlayState});
         
@@ -36,22 +33,21 @@ class NoteCombo extends Module {
     {
         super.onNoteHit(event);
 
-        if (event.note.noteData.getMustHitNote())
+        if (!FlxG.save.data.comboswoosh)
         {
-            if (FlxG.save.data.comboswoosh)
-            {
-                //noteHitTime is now calculated by using steps instead of ms
-                noteHitTime = event.note.noteData.getStepTime() + (Conductor.instance.get_bpm() / 16);
-                combo++;
-                checkSustain();
-            }
+            return;
         }
-
-     
-
-
-
+        if (!event.note.noteData.getMustHitNote())
+        {
+            return;
+        }
+            
+        //noteHitTime is now calculated by using steps instead of ms
+        noteHitTime = event.note.noteData.getStepTime() + (Conductor.instance.get_bpm() / 16);
+        combo++;
+        checkSustain();
     }
+    
     override function onCountdownStart(event)
     {
         super.onCountdownStart(event);
@@ -83,8 +79,6 @@ class NoteCombo extends Module {
         }
            
         super.onUpdate(event);
-      
-     
     }
 
     function initVariables()
@@ -98,7 +92,6 @@ class NoteCombo extends Module {
             comboSwoosh.destroy();
         }
       
-        comboSwoosh = new ComboSwoosh();
     
         holdNoteStart = 0;
         holdNoteEnd = 0;
@@ -108,10 +101,9 @@ class NoteCombo extends Module {
 
         if (FlxG.save.data.comboswoosh)
         {
-            // if (comboSwoosh == null)
-            // {
-                 
-            // }
+
+            comboSwoosh = new ComboSwoosh();
+            PlayState.instance.add(comboSwoosh);
 
 
             switch (Save.instance.modOptions["ComboSwooshCamera"])
@@ -148,12 +140,7 @@ class NoteCombo extends Module {
                         comboSwoosh.camera = PlayState.instance.camHUD;
                     }  
             }
-           
-
-    
-            
-           
-            PlayState.instance.add(comboSwoosh);
+                      
         }
     }
 
