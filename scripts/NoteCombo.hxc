@@ -55,7 +55,6 @@ class NoteCombo extends Module {
     override function onCountdownStart(event)
     {
         super.onCountdownStart(event);
-        // PlayState.instance.add(comboSwoosh);
         initVariables();
 
     }
@@ -94,6 +93,13 @@ class NoteCombo extends Module {
         {
             return;
         }
+        if (comboSwoosh != null)
+        {
+            comboSwoosh.destroy();
+        }
+      
+        comboSwoosh = new ComboSwoosh();
+    
         holdNoteStart = 0;
         holdNoteEnd = 0;
         holdNoteEndTime = 0;
@@ -102,10 +108,10 @@ class NoteCombo extends Module {
 
         if (FlxG.save.data.comboswoosh)
         {
-            if (comboSwoosh == null)
-            {
-                comboSwoosh = new ComboSwoosh(); //30,300
-            }
+            // if (comboSwoosh == null)
+            // {
+                 
+            // }
 
 
             switch (Save.instance.modOptions["ComboSwooshCamera"])
@@ -120,7 +126,6 @@ class NoteCombo extends Module {
                             comboSwoosh.setPosition(400,300);
                         case "Right":
                             comboSwoosh.setPosition((FlxG.width - (comboSwoosh.coolCombo.width)) + (300 + comboSwoosh.coolComboOffset) - 50,300);
-                            // comboSwoosh.x += 55 / (1 - comboSwoosh.comboScale);
                     }
                 case "World":     
                     if (PlayState.instance.currentStage != null)
@@ -129,12 +134,12 @@ class NoteCombo extends Module {
                         if (PlayState.instance.currentStage.getGirlfriend() != null)
                         {
                             comboSwoosh.camera = PlayState.instance.camGame;
-                            comboSwoosh.setPosition(PlayState.instance.currentStage.getGirlfriend().x, PlayState.instance.currentStage.getGirlfriend().y + (PlayState.instance.currentStage.getGirlfriend().height / 2));//250
+                            comboSwoosh.setPosition(PlayState.instance.currentStage.getGirlfriend().x, PlayState.instance.currentStage.getGirlfriend().y + (PlayState.instance.currentStage.getGirlfriend().height / 2));
                         }
                         else
                         {
                             comboSwoosh.camera = PlayState.instance.camGame;
-                            comboSwoosh.setPosition(PlayState.instance.currentStage.getDad().x, PlayState.instance.currentStage.getDad().y + (PlayState.instance.currentStage.getDad().height / 2));//250
+                            comboSwoosh.setPosition(PlayState.instance.currentStage.getDad().x, PlayState.instance.currentStage.getDad().y + (PlayState.instance.currentStage.getDad().height / 2));
                         }
                     }
                     else

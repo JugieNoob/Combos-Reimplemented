@@ -22,6 +22,7 @@ class ComboPopup extends Module {
 		super.onCountdownStart(event);
 		// PlayState.instance.comboPopUps.camera = PlayState.instance.camGame;
 		fadeEase = PlayState.instance.comboPopUps.noteStyle.isJudgementSpritePixel("sick") ? EaseUtil.stepped(2) : null;
+		
 	}
 
 	override function onUpdate(event) {
@@ -31,14 +32,16 @@ class ComboPopup extends Module {
 		//     for (popup in PlayState.instance.comboPopUps)
 		//     {
 		//         popup.camera = PlayState.instance.camGame;
-		//         popup.scrollFactor.set();
+		//         // popup.scrollFactor.set();
 		//     }
 		// }
 	}
 
+
+
 	override function onNoteHit(event) {
 		super.onNoteHit(event);
-
+	
 		if (FlxG.save.data.combopopup) {
 			if (Highscore.tallies.combo >= 9 && event.note.noteData.getMustHitNote()) {
 				if (PlayState.instance.comboPopUps.visible && PlayState.instance.comboPopUps.noteStyle.buildJudgementSprite("good") != null) {
