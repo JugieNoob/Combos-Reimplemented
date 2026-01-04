@@ -11,8 +11,6 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
 
     public var coolCombo:FunkinSprite;
 
-    var testCombo = 0;
-
     // Offsets for the coolNumbers, each index represents a number.
     var numberOffset = [0,40];
 
@@ -49,11 +47,6 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
     override public function update(elapsed)
     {
         super.update(elapsed);
-        if (FlxG.keys.justPressed.N)
-        {
-            playCombo(testCombo);
-            testCombo++;
-        }
     }
 
     public function playCombo(combo:Int)
