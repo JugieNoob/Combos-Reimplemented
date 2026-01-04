@@ -20,21 +20,12 @@ class ComboPopup extends Module {
 
 	override function onCountdownStart(event) {
 		super.onCountdownStart(event);
-		// PlayState.instance.comboPopUps.camera = PlayState.instance.camGame;
 		fadeEase = PlayState.instance.comboPopUps.noteStyle.isJudgementSpritePixel("sick") ? EaseUtil.stepped(2) : null;
 		
 	}
 
 	override function onUpdate(event) {
 		super.onUpdate(event);
-		// if (PlayState.instance.comboPopUps != null)
-		// {
-		//     for (popup in PlayState.instance.comboPopUps)
-		//     {
-		//         popup.camera = PlayState.instance.camGame;
-		//         // popup.scrollFactor.set();
-		//     }
-		// }
 	}
 
 

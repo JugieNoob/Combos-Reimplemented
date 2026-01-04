@@ -113,7 +113,7 @@ class NoteCombo extends Module {
                     switch (Save.instance.modOptions["ComboSwooshPosition"])
                     {
                         case "Left":
-                            comboSwoosh.setPosition(50 * comboSwoosh.comboScale,300);
+                            comboSwoosh.setPosition(50 / comboSwoosh.comboScale,300);
                         case "Middle":
                             comboSwoosh.setPosition(400,300);
                         case "Right":

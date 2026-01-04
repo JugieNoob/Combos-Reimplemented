@@ -11,7 +11,7 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
 
     public var coolCombo:FunkinSprite;
 
-    var testCombo = 990;
+    var testCombo = 0;
 
     // Offsets for the coolNumbers, each index represents a number.
     var numberOffset = [0,40];
@@ -35,7 +35,7 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
         coolCombo.scale.set(comboScale, comboScale);
 
         numberGroup = new FlxTypedSpriteGroup();
-        numberGroup.setPosition(coolCombo.x + coolComboOffset + (coolCombo.width / 4), coolCombo.y);
+        numberGroup.setPosition(coolCombo.x + coolComboOffset * 1.8, coolCombo.y + 30); //coolCombo.x + coolComboOffset + (coolCombo.width / 4) 
         numberGroup.y -= (comboScale - 1) * 75;
         numberGroup.x -= (comboScale - 1) * 20;
 
@@ -63,49 +63,54 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
         var comboToString = Std.string(combo);
 
 
-        if (Save.instance.modOptions["ComboSwooshCamera"] == "HUD" && Save.instance.modOptions["ComboSwooshPosition"] == "Left")
-        {
-            x = originalX + ((100 * (comboToString.length - 2)) * comboScale);
-        }
+        // if (Save.instance.modOptions["ComboSwooshCamera"] == "HUD" && Save.instance.modOptions["ComboSwooshPosition"] == "Left")
+        // {
+        //     x = originalX + ((100 * (comboToString.length - 2)) * comboScale);
+        // }
     
         for (i in 0...comboToString.length)
         {
-            var coolNumber = new FunkinSprite();
-            coolNumber.loadSparrow("noteComboNumbers");
-   
-            var curNum = comboToString.length - (i + 1);
-            trace("test: " + curNum);
-            //No more lag spike (shouldnt have added all the numbers in the loop)
-            coolNumber.animation.addByPrefix(comboToString.charAt(curNum), comboToString.charAt(curNum), 20, false);
-            coolNumber.animation.play(comboToString.charAt(curNum), false, FlxG.save.data.reversenumanim);
+            var curNum = i; //comboToString.length - (i + 1)
+
+            var coolNumber:FunkinSprite = numberGroup.getFirstDead();
+            
+            if (coolNumber == null)
+            {
+                coolNumber = new FunkinSprite();
+                coolNumber.loadSparrow("noteComboNumbers");
+                for (j in 0...10)
+                {
+                    coolNumber.animation.addByPrefix(j, j, 20, false);
+                }
+                numberGroup.add(coolNumber);
+            }
+            else
+            {
+                trace("recycled number");
+                coolNumber.revive();
+                coolNumber.x = 0;
+                coolNumber.y = numberGroup.y;
+                coolNumber.offset.set(0,0);
+            }
+
+            coolNumber.animation.play(comboToString.charAt(curNum), true, FlxG.save.data.reversenumanim, 0);
             coolNumber.updateHitbox();
-            coolNumber.scale.set(comboScale, comboScale);
 
             // Manual offset because it looks horrible
             if (comboToString.charAt(curNum) == "5")
             {
                 coolNumber.offset.set(5, 10);
             }
-            if (curNum == comboToString.length - 1)
+            else if (comboToString.charAt(curNum) == "8")
             {
-                coolNumber.x -= coolNumber.width - 40;
-            }
-            else
-            {
-                coolNumber.x -= (numberGroup.x - numberGroup.members[i - 1].x) + coolNumber.width;
-                coolNumber.x -= (comboScale - 1) * (numberGroup.members[i - 1].width - 40);
-                coolNumber.x += 30;
-
-                coolNumber.y += (35 * i) * comboScale;
-
+                coolNumber.offset.set(5, 10);
             }
 
-       
-            numberGroup.add(coolNumber);
 
+            coolNumber.setPosition(((-50 - (coolNumber.width / 2)) * (comboToString.length - i)) + (coolCombo.x + 568), coolCombo.y + (35 * (comboToString.length - i)) - 44);
             coolNumber.animation.finishCallback = function(combo)
             {
-            	numberGroup.clear();
+            	coolNumber.kill();
             }
         }
         if (FlxG.save.data.combosound)
@@ -123,13 +128,8 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
         coolCombo.animation.finishCallback = function(combo)
 		{
 			visible = false;
-            x = originalX;
         }
     }
 
-    override public function setPosition(x,y)
-    {
-        super.setPosition(x,y);
-        originalX = x;
-    }
+
 }
