@@ -101,7 +101,7 @@ class NoteComboOptions extends Module {
 			Save.instance.flush();
 		}, Save.instance.modOptions["ComboSwooshCamera"]);
 
-		preferences.createPrefItemEnum("Combo Swoosh Position", "Set which side of the screen the Combo Swoosh should appear on when using the HUD Camera.", ["Left" => "Left","Middle" => "Middle","Right" => "Right",], function(value:String){
+		preferences.createPrefItemEnum("Combo Swoosh Position", "Set which side of the screen the Combo Swoosh should appear on when using the HUD Camera.", ["Left" => "Left","Default" => "Default","Right" => "Right",], function(value:String){
 			Save.instance.modOptions["ComboSwooshPosition"] = value;
 			Save.instance.flush();
 		}, Save.instance.modOptions["ComboSwooshPosition"]);

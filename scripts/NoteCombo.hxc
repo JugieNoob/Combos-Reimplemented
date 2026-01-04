@@ -114,7 +114,7 @@ class NoteCombo extends Module {
                     {
                         case "Left":
                             comboSwoosh.setPosition(50 / comboSwoosh.comboScale,300);
-                        case "Middle":
+                        case "Default":
                             comboSwoosh.setPosition(400,300);
                         case "Right":
                             comboSwoosh.setPosition((FlxG.width - (comboSwoosh.coolCombo.width)) + (300 + comboSwoosh.coolComboOffset) - 50,300);

@@ -7,6 +7,8 @@ import funkin.Highscore;
 import flixel.tweens.FlxTween;
 import funkin.util.EaseUtil;
 import funkin.FunkinMemory;
+import funkin.save.Save;
+
 
 class ComboPopup extends Module {
 	var fadeEase;
