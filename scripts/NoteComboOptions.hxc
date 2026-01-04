@@ -10,28 +10,25 @@ class NoteComboOptions extends Module {
 	function new() {
 		super("Note Combo Options", 20, {state: OptionsState});
 
-		if (FlxG.save.data.combopopup == null) {
-			FlxG.save.data.combopopup = true;
+		if (Save.instance.modOptions["ComboPopups"] == null) {
+			Save.instance.modOptions["ComboPopups"] = true;
 		}
-		if (FlxG.save.data.comboswoosh == null) {
-			FlxG.save.data.comboswoosh = true;
+		if (Save.instance.modOptions["ComboSwoosh"] == null) {
+			Save.instance.modOptions["ComboSwoosh"] = true;
 		}
-		if (FlxG.save.data.combosound == null) {
-			FlxG.save.data.combosound = true;
+		if (Save.instance.modOptions["ComboSound"] == null) {
+			Save.instance.modOptions["ComboSound"] = true;
 		}
-		if (FlxG.save.data.debugtext == null) {
-			FlxG.save.data.debugtext = false;
-		}
-		if (FlxG.save.data.cachestuff == null) {
-			FlxG.save.data.cachestuff = true;
+		if (Save.instance.modOptions["CacheItems"] == null) {
+			Save.instance.modOptions["CacheItems"] = true;
 		}
 	
 		if (Save.instance.modOptions["ComboSwooshThreshold"] == null)
 		{
 			Save.instance.modOptions["ComboSwooshThreshold"] = 1;
 		}
-		if (FlxG.save.data.reversenumanim == null) {
-			FlxG.save.data.reversenumanim = false;
+		if (Save.instance.modOptions["ReverseNumAnim"] == null) {
+			Save.instance.modOptions["ReverseNumAnim"] = false;
 		}
 
 
@@ -66,24 +63,24 @@ class NoteComboOptions extends Module {
 
 		preferences.createPrefItemCheckbox('Combo Popup', 'Toggles the combo popup when you hit more than 10 or more notes in a row.',
 			function(value:Bool):Void {
-				FlxG.save.data.combopopup = value;
+				Save.instance.modOptions["ComboPopups"] = value;
 				FlxG.save.flush();
-			}, FlxG.save.data.combopopup);
+			}, Save.instance.modOptions["ComboPopups"]);
 
 		preferences.createPrefItemCheckbox('Combo Swoosh', 'Toggles the combo swoosh that appears after each section in a song.', function(value:Bool):Void {
-			FlxG.save.data.comboswoosh = value;
+			Save.instance.modOptions["ComboSwoosh"] = value;
 			FlxG.save.flush();
-		}, FlxG.save.data.comboswoosh);
+		}, Save.instance.modOptions["ComboSwoosh"]);
 		preferences.createPrefItemCheckbox('Combo Swoosh Sound', "Toggles the note combo sound when the combo swoosh appears.", function(value:Bool):Void {
-			FlxG.save.data.combosound = value;
+			Save.instance.modOptions["ComboSound"] = value;
 			FlxG.save.flush();
-		}, FlxG.save.data.combosound);
+		}, Save.instance.modOptions["ComboSound"]);
 
 		preferences.createPrefItemCheckbox('Reverse Swoosh Number Animation',
 			"Reverses the combo swoosh's numbers to make the animation more accurate to the one shown in the development stream.", function(value:Bool):Void {
-				FlxG.save.data.reversenumanim = value;
+				Save.instance.modOptions["ReverseNumAnim"] = value;
 				FlxG.save.flush();
-		}, FlxG.save.data.reversenumanim);
+		}, Save.instance.modOptions["ReverseNumAnim"]);
 
 		preferences.createPrefItemNumber('Combo Swoosh Threshold', 'The minimum amount of combo needed for the Combo Swoosh to activate.',
 			function(value:Int) {
@@ -94,9 +91,9 @@ class NoteComboOptions extends Module {
 		preferences.createPrefItemCheckbox('Cache Combo Assets',
 			'Toggles caching the combo assets, if enabled, it may help with the game stuttering when loading the assets. (requires reloading the game if toggled)',
 			function(value:Bool):Void {
-				FlxG.save.data.cachestuff = value;
+				Save.instance.modOptions["CacheItems"] = value;
 				FlxG.save.flush();
-			}, FlxG.save.data.cachestuff);
+			}, Save.instance.modOptions["CacheItems"]);
 
 		
 		preferences.createPrefItemEnum("Combo Swoosh Camera", "Set which camera the Combo Swoosh should appear on.", ["HUD" => "HUD", "World" => "World"], function(value:String){

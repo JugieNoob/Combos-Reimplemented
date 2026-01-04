@@ -51,7 +51,6 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
         super.update(elapsed);
         if (FlxG.keys.justPressed.N)
         {
-            // coolCombo.animation.play("combo", true);
             playCombo(testCombo);
             testCombo++;
         }
@@ -59,18 +58,12 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
 
     public function playCombo(combo:Int)
     {
-        // combo = 100;
         var comboToString = Std.string(combo);
 
-
-        // if (Save.instance.modOptions["ComboSwooshCamera"] == "HUD" && Save.instance.modOptions["ComboSwooshPosition"] == "Left")
-        // {
-        //     x = originalX + ((100 * (comboToString.length - 2)) * comboScale);
-        // }
     
         for (i in 0...comboToString.length)
         {
-            var curNum = i; //comboToString.length - (i + 1)
+            var curNum = i;
 
             var coolNumber:FunkinSprite = numberGroup.getFirstDead();
             
@@ -93,7 +86,7 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
                 coolNumber.offset.set(0,0);
             }
 
-            coolNumber.animation.play(comboToString.charAt(curNum), true, FlxG.save.data.reversenumanim, 0);
+            coolNumber.animation.play(comboToString.charAt(curNum), true, Save.instance.modOptions["ReverseNumAnim"], 0);
             coolNumber.updateHitbox();
 
             // Manual offset because it looks horrible
@@ -113,7 +106,7 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
             	coolNumber.kill();
             }
         }
-        if (FlxG.save.data.combosound)
+        if (Save.instance.modOptions["ComboSound"])
         {
             FunkinSound.playOnce(Paths.sound("comboSound"));
         }

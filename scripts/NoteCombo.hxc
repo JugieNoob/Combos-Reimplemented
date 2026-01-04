@@ -20,7 +20,7 @@ class NoteCombo extends Module {
     function new (){
         super("Note Combo", 1, {state: PlayState});
         
-        if (FlxG.save.data.cachestuff)
+        if (Save.instance.modOptions["CacheItems"])
         {
             FunkinMemory.cacheSound(Paths.sound("comboSound"));
             FunkinMemory.cacheTexture("noteCombo");
@@ -33,7 +33,7 @@ class NoteCombo extends Module {
     {
         super.onNoteHit(event);
 
-        if (!FlxG.save.data.comboswoosh)
+        if (!Save.instance.modOptions["ComboSwoosh"])
         {
             return;
         }
@@ -57,7 +57,7 @@ class NoteCombo extends Module {
 
     override function onUpdate(event)
     {
-        if (!FlxG.save.data.comboswoosh)
+        if (!Save.instance.modOptions["ComboSwoosh"])
         {
             return;
         }
@@ -99,7 +99,7 @@ class NoteCombo extends Module {
         combo = 0;
         noteHitTime = 0;
 
-        if (FlxG.save.data.comboswoosh)
+        if (Save.instance.modOptions["ComboSwoosh"])
         {
 
             comboSwoosh = new ComboSwoosh();

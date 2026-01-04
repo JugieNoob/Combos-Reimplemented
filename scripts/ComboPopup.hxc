@@ -12,7 +12,7 @@ class ComboPopup extends Module {
 	var fadeEase;
 	function new() {
 		super("Combo Popup", 10, {state: PlayState});
-		if (FlxG.save.data.cachestuff) {
+		if (Save.instance.modOptions["CacheItems"]) {
 			FunkinMemory.cacheTexture("combo.png");
 			FunkinMemory.cacheTexture("combo-pixel.png");
 		}
@@ -33,7 +33,7 @@ class ComboPopup extends Module {
 	override function onNoteHit(event) {
 		super.onNoteHit(event);
 	
-		if (FlxG.save.data.combopopup) {
+		if (Save.instance.modOptions["ComboPopups"]) {
 			if (Highscore.tallies.combo >= 9 && event.note.noteData.getMustHitNote()) {
 				if (PlayState.instance.comboPopUps.visible && PlayState.instance.comboPopUps.noteStyle.buildJudgementSprite("good") != null) {
 					showComboSpr();
