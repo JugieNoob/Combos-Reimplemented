@@ -4,8 +4,14 @@ import funkin.ui.options.OptionsState;
 import flixel.FlxG;
 import Std;
 import funkin.save.Save;
+import flixel.FlxSprite;
 
 class NoteComboOptions extends Module {
+
+
+	var scrollText;
+	var items;
+	var preferences;
 
 	function new() {
 		super("Note Combo Options", 20, {state: OptionsState});
@@ -45,7 +51,7 @@ class NoteComboOptions extends Module {
 			}
 			else
 			{
-				Save.instance.modOptions["ComboSwooshPosition"] = "Middle";
+				Save.instance.modOptions["ComboSwooshPosition"] = "Default";
 			}
 		}
 
@@ -59,7 +65,11 @@ class NoteComboOptions extends Module {
 	function onStateChangeEnd(event) {
 		super.onStateChangeEnd(event);
 
-		var preferences = event.targetState.optionsCodex.pages.get("preferences");
+		preferences = event.targetState.optionsCodex.pages.get("preferences");
+		items = preferences.items;
+
+		createPrefSeparator("# Combo Options");
+
 
 		preferences.createPrefItemCheckbox('Combo Popup', 'Toggles the combo popup when you hit more than 10 or more notes in a row.',
 			function(value:Bool):Void {
@@ -76,11 +86,15 @@ class NoteComboOptions extends Module {
 			FlxG.save.flush();
 		}, Save.instance.modOptions["ComboSound"]);
 
-		preferences.createPrefItemCheckbox('Reverse Swoosh Number Animation',
+		preferences.createPrefItemCheckbox('Reverse Swoosh\nNumber Animation',
 			"Reverses the combo swoosh's numbers to make the animation more accurate to the one shown in the development stream.", function(value:Bool):Void {
 				Save.instance.modOptions["ReverseNumAnim"] = value;
 				FlxG.save.flush();
 		}, Save.instance.modOptions["ReverseNumAnim"]);
+
+		scrollText = items.members[items.length - 1].atlasText;
+        scrollText.scale.set(0.8, 0.8);
+        scrollText.updateHitbox();
 
 		preferences.createPrefItemNumber('Combo Swoosh Threshold', 'The minimum amount of combo needed for the Combo Swoosh to activate.',
 			function(value:Int) {
@@ -113,5 +127,27 @@ class NoteComboOptions extends Module {
 				Save.instance.flush();
 			}, Save.instance.modOptions["ComboSwooshHaptics"]);			
 		}
+
+		createPrefSeparator("# End of Combo Options");
+
 	}
+
+	function onUpdate(elapsed:Float)
+	{
+		super.onUpdate(elapsed);
+		if (scrollText != null)
+		{
+			scrollText.y -= scrollText.height / 1.5;
+        	scrollText.x -= 350;
+		}
+		
+	}
+
+
+	function createPrefSeparator(text:String) {
+        preferences.items.createItem(0, (120 * preferences.items.length) + 30, text, "bold", function(){}, true);
+        // Taken from https://gamebanana.com/mods/597782
+        preferences.preferenceItems.add(new FlxSprite().makeGraphic(0, 0, 0x00000000));
+        preferences.preferenceDesc.push("");
+    }
 }
