@@ -44,11 +44,6 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
         visible = false;
     }
 
-    override public function update(elapsed)
-    {
-        super.update(elapsed);
-    }
-
     public function playCombo(combo:Int)
     {
         var comboToString = Std.string(combo);

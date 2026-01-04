@@ -74,22 +74,22 @@ class NoteComboOptions extends Module {
 		preferences.createPrefItemCheckbox('Combo Popup', 'Toggles the combo popup when you hit more than 10 or more notes in a row.',
 			function(value:Bool):Void {
 				Save.instance.modOptions["ComboPopups"] = value;
-				FlxG.save.flush();
+				Save.instance.flush();
 			}, Save.instance.modOptions["ComboPopups"]);
 
 		preferences.createPrefItemCheckbox('Combo Swoosh', 'Toggles the combo swoosh that appears after each section in a song.', function(value:Bool):Void {
 			Save.instance.modOptions["ComboSwoosh"] = value;
-			FlxG.save.flush();
+			Save.instance.flush();
 		}, Save.instance.modOptions["ComboSwoosh"]);
 		preferences.createPrefItemCheckbox('Combo Swoosh Sound', "Toggles the note combo sound when the combo swoosh appears.", function(value:Bool):Void {
 			Save.instance.modOptions["ComboSound"] = value;
-			FlxG.save.flush();
+			Save.instance.flush();
 		}, Save.instance.modOptions["ComboSound"]);
 
 		preferences.createPrefItemCheckbox('Reverse Swoosh\nNumber Animation',
 			"Reverses the combo swoosh's numbers to make the animation more accurate to the one shown in the development stream.", function(value:Bool):Void {
 				Save.instance.modOptions["ReverseNumAnim"] = value;
-				FlxG.save.flush();
+				Save.instance.flush();
 		}, Save.instance.modOptions["ReverseNumAnim"]);
 
 		scrollText = items.members[items.length - 1].atlasText;
@@ -106,7 +106,7 @@ class NoteComboOptions extends Module {
 			'Toggles caching the combo assets, if enabled, it may help with the game stuttering when loading the assets. (requires reloading the game if toggled)',
 			function(value:Bool):Void {
 				Save.instance.modOptions["CacheItems"] = value;
-				FlxG.save.flush();
+				Save.instance.flush();
 			}, Save.instance.modOptions["CacheItems"]);
 
 		

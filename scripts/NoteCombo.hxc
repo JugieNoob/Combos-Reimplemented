@@ -66,7 +66,7 @@ class NoteCombo extends Module {
         {
             combo = 0;
         }
-        else if (combo >= FlxG.save.data.swooshthreshold)
+        else if (combo >= Save.instance.modOptions["ComboSwooshThreshold"])
         {
             if (Conductor.instance.currentStep >= (noteHitTime + holdNoteEnd))
             {
