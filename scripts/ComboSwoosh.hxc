@@ -103,7 +103,13 @@ class ComboSwoosh extends FlxTypedSpriteGroup {
         coolCombo.animation.play("combo", true);
         if (FlxG.onMobile && Save.instance.modOptions["ComboSwooshHaptics"])
         {
-            HapticUtil.vibrate(0, 0.01 * Save.instance.options["hapticsIntensityMultiplier"]);
+            try {
+                HapticUtil.vibrate(0, 0.01 * Save.instance.options["hapticsIntensityMultiplier"]);
+            }
+            catch(e:haxe.Exception)
+            {
+                trace("Could not play haptics!");
+            }
         }
 
         coolCombo.animation.finishCallback = function(combo)
