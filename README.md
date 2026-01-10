@@ -1,11 +1,16 @@
-# Combos Reimplemented [V-Slice]
+**<h1 align="center">Combos Reimplemented [V-Slice]</h1>**
+
+<div align=center>
+  <img src=https://github.com/JugieNoob/Combos-Reimplemented/blob/main/_polymod_icon.png width=32.5%>
+  <img src=https://github.com/JugieNoob/Combos-Reimplemented/blob/main/.github/notecombomod.png width=55.5%>
+</div>
 
 A mod for the **FNF V-Slice Engine** that tries to recreate the unused note combo feature shown off in a development stream as closely as possible. The unused Combo Pop-up sprite is also reimplemented.
 
 **DISCLAIMER: I DO NOT OWN ANY OF THE ASSETS IN THIS MOD.**
 
 
-## Features (can be toggled in the Preferences menu):
+## Features:
 - **Combo Pop-up next to combo numbers.**
 - **Combo Swoosh effect that was shown in a development stream.**
 - **+ More**
