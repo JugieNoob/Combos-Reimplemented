@@ -14,7 +14,7 @@ A mod for the **FNF V-Slice Engine** that reimplements the unused Combo Pop-up s
 ## Features:
 - **Combo Pop-up next to combo numbers.**
 - **Combo Swoosh effect that was shown in a development stream.**
-- **+ More**
+- **+ More!**
 
 ## How to Install:
 1. Download the latest version from the [Releases](https://github.com/JugieNoob/Combos-Reimplemented/releases) tab.
