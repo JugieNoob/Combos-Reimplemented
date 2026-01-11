@@ -11,12 +11,12 @@ A mod for the **FNF V-Slice Engine** that reimplements the unused Combo Pop-up s
 **DISCLAIMER: I DO NOT OWN ANY OF THE ASSETS IN THIS MOD.**
 
 
-## Features:
+## Features
 - **Combo Pop-up next to combo numbers.**
 - **Combo Swoosh effect that was shown in a development stream.**
 - **+ More!**
 
-## How to Install:
+## How to Install
 1. Download the latest version from the [Releases](https://github.com/JugieNoob/Combos-Reimplemented/releases) tab.
 2. Place the .zip file into the Friday Night Funkin' mods folder.
 
