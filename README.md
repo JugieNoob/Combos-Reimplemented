@@ -5,7 +5,8 @@
   <img src=https://github.com/JugieNoob/Combos-Reimplemented/blob/main/.github/notecombomod.png width=55.5%>
 </div>
 
-A mod for the **FNF V-Slice Engine** that tries to recreate the unused note combo feature shown off in a development stream as closely as possible. The unused Combo Pop-up sprite is also reimplemented.
+
+A mod for the **FNF V-Slice Engine** that reimplements the unused Combo Pop-up sprite and the unused Note Combo feature shown off in a development stream.
 
 **DISCLAIMER: I DO NOT OWN ANY OF THE ASSETS IN THIS MOD.**
 
@@ -37,6 +38,10 @@ A mod for the **FNF V-Slice Engine** that tries to recreate the unused note comb
 <img src=https://github.com/JugieNoob/Combos-Reimplemented/blob/main/.github/images/mobile2.jpg width=47.5%>
 </div>
 
+<br>
 
+<div align=center>
+  <a href="https://gamebanana.com/mods/516489"><img src="https://gamebanana.com/mods/embeddables/516489?type=large"/></a>
+</div>
 
 
