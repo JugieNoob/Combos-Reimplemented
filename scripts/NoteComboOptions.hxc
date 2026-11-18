@@ -68,8 +68,6 @@ class NoteComboOptions extends Module {
 		preferences = event.targetState.optionsCodex.pages.get("preferences");
 		items = preferences.items;
 
-		createPrefSeparator("# Combo Options");
-
 
 		preferences.createPrefItemCheckbox('Combo Popup', 'Toggles the combo popup when you hit more than 10 or more notes in a row.',
 			function(value:Bool):Void {
@@ -128,8 +126,6 @@ class NoteComboOptions extends Module {
 			}, Save.instance.modOptions["ComboSwooshHaptics"]);			
 		}
 
-		createPrefSeparator("# End of Combo Options");
-
 	}
 
 	function onUpdate(elapsed:Float)
@@ -142,12 +138,4 @@ class NoteComboOptions extends Module {
 		}
 		
 	}
-
-
-	function createPrefSeparator(text:String) {
-        preferences.items.createItem(0, (120 * preferences.items.length) + 30, text, "bold", function(){}, true);
-        // Taken from https://gamebanana.com/mods/597782
-        preferences.preferenceItems.add(new FlxSprite().makeGraphic(0, 0, 0x00000000));
-        preferences.preferenceDesc.push("");
-    }
 }
