@@ -6,18 +6,13 @@ import flixel.FlxG;
 import funkin.Highscore;
 import flixel.tweens.FlxTween;
 import funkin.util.EaseUtil;
-import funkin.FunkinMemory;
 import funkin.save.Save;
 
 
 class ComboPopup extends Module {
 	var fadeEase;
 	function new() {
-		super("Combo Popup", 10, {state: PlayState});
-		if (Save.instance.modOptions["CacheItems"]) {
-			FunkinMemory.cacheTexture("combo.png");
-			FunkinMemory.cacheTexture("combo-pixel.png");
-		}
+		super("ComboPopup", 10, {state: PlayState});
 	}
 
 	override function onCountdownStart(event) {

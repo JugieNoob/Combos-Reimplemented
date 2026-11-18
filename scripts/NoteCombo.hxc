@@ -5,8 +5,7 @@ import flixel.FlxG;
 import funkin.Highscore;
 import flixel.math.FlxMath;
 import funkin.save.Save;
-import funkin.FunkinMemory;
-
+import ComboSwoosh;
 
 class NoteCombo extends Module {
     var comboSwoosh:ComboSwoosh;
@@ -18,14 +17,7 @@ class NoteCombo extends Module {
     var holdNoteEnd = 0;
 
     function new (){
-        super("Note Combo", 1, {state: PlayState});
-        
-        if (Save.instance.modOptions["CacheItems"])
-        {
-            FunkinMemory.cacheSound(Paths.sound("comboSound"));
-            FunkinMemory.cacheTexture("noteCombo");
-            FunkinMemory.cacheTexture("noteComboNumbers");
-        }
+        super("NoteCombo", 1, {state: PlayState});
     }
 
 
@@ -45,7 +37,7 @@ class NoteCombo extends Module {
         //noteHitTime is now calculated by using steps instead of ms
         noteHitTime = event.note.noteData.getStepTime() + (Conductor.instance.get_bpm() / 16);
         combo++;
-        checkSustain();
+        checkSustain(event);
     }
     
     override function onCountdownStart(event)
@@ -144,7 +136,7 @@ class NoteCombo extends Module {
         }
     }
 
-    function checkSustain()
+    function checkSustain(event)
     {
         //Rewrote the sutain note stuff
         if (event.note.noteData.getStepLength() > 0 && event.note.noteData.getMustHitNote())
